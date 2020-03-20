@@ -1,8 +1,22 @@
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
 
-
-def obstacleSpace(x,y,radius,clearance):
+##
+## Defining the obstacle space and checking if the point coordinate is within the obstacle space
+##
+## :param      x:          x-coordinate in cartesian space
+## :type       x:          float
+## :param      y:          y-coordinate in cartesian space
+## :type       y:          float
+## :param      radius:     The radius
+## :type       radius:     float
+## :param      clearance:  The clearance
+## :type       clearance:  float
+##
+## :returns:   True if the point lies in the obstacle space. Otherwise False
+## :rtype:     boolean
+##
+def withinObstacleSpace(x,y,radius,clearance):
 
     flag = 0
     flag_1 = 0
@@ -66,6 +80,9 @@ def obstacleSpace(x,y,radius,clearance):
         flag = 1    
     return flag
 
+##
+## Generates the map for the obstacle space
+##
 def generateMap():
     fig, ax = plt.subplots()
     ax.set(xlim=(0, 300), ylim = (0,200))
