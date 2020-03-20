@@ -15,52 +15,49 @@ import utils
 import dijkstra
 
 
+
 ##
-## The main function
+## Computes the path from the starting node to the goal node
 ##
-def main():
+## :param      start_node:    The start node (Xs,Ys,Theta_s)
+## :type       start_node:    A tuple of starting coordinates and orientation
+## :param      goal_node:     The goal node (Xs,Ys,Theta_g)
+## :type       goal_node:     A tuple of the GOAL coordinates and orientation
+## :param      robot_radius:  Radius of the circular robot
+## :type       robot_radius:  float
+## :param      clearance:     Clearance gap between the robot and the obstacle
+## :type       clearance:     float
+## :param      step_size:     The atomic linear movement step size
+## :type       step_size:     float
+## :param      theta:         The atomic angular movement in terms of theta in degrees
+## :type       theta:         float
+##
+def aStar(start_node, goal_node, robot_radius, clearance, step_size, theta=30):
+	# check if the start node lies withing the map and not on obstacles
+	if (start_node.current_coords[0] < actions.MIN_COORDS[1]) or (start_node.current_coords[0] >= actions.MAX_COORDS[1]) or (start_node.current_coords[1] < actions.MIN_COORDS[0]) or (start_node.current_coords[1] >= actions.MAX_COORDS[0]) or hittingObstacle(start_node):
+		print("ERROR: Invalid start node. It either lies outside the map boundary or within the obstacle region.")
+		sys.exit(0)
 
-	input_map = obstacles.getMap(radius=0, visualize=False)
+	# check if the goal node lies withing the map and not on obstacles
+	if (goal_node.current_coords[0] < actions.MIN_COORDS[1]) or (goal_node.current_coords[0] >= actions.MAX_COORDS[1]) or (goal_node.current_coords[1] < actions.MIN_COORDS[0]) or (goal_node.current_coords[1] >= actions.MAX_COORDS[0]) or hittingObstacle(goal_node):
+		print("ERROR: Invalid goal node. It either lies outside the map boundary or within the obstacle region.")
+		sys.exit(0)
 
-	# User input for the start state
-	start_c, start_r = map(int, raw_input("Enter starting coordinates (x y): ").split())
-	start_r = input_map.shape[0] - start_r
-	if (start_r < 0 or start_c < 0 or start_r >= input_map.shape[0] or start_c >= input_map.shape[1] or obstacles.insideObstacle(start_r, start_c, radius=0)):
-		print("ERROR: This start state is invalid. Possible issues can be that the start position lies outside the map region or within the obstacle. Please try a different starting position.")
-		return 
-
-	# User input for the goal state
-	goal_c, goal_r = map(int, raw_input("Enter goal coordinates (x y): ").split())
-	goal_r = input_map.shape[0] - goal_r
-	if (goal_r < 0 or goal_c < 0 or goal_r >= input_map.shape[0] or goal_c >= input_map.shape[1] or obstacles.insideObstacle(goal_r, goal_c, radius=0)):
-		print("ERROR: This goal state is invalid. Possible issues can be that the goal position lies outside the map region or within the obstacle. Please try a different goal position.")
-		return 
-
-	# USer input for radius
-
-	# USer input for clearance 
-
-	# USer input for step size
 	# check is step size lies between 0 and 10
 	if step_size < 1 or step_size > 10:
 		print("ERROR: Invalid step_size. It must lie within 1 and 10.")
 		sys.exit(0)
-		
-	# User input for angle
 
-	start_time = time.clock()
-	# Get the path after running the dijkstra algorithm 
-	path, viz_visited_coords = dijkstra.getDijkstraPath(input_map, (start_r, start_c), (goal_r, goal_c), original_map=input_map)
-	print "Time to run Dijkstra:", time.clock() - start_time, "seconds"
 
-	# Visualize the path on the input_map
-	utils.visualizePaths(input_map=input_map, optimal_path=path, exploration_coords=viz_visited_coords)
 
-	 #if 'q' is pressed then quit visualization
-	while(1):
-		key = cv2.waitKey(1) & 0xFF
-		if key == 27 or key == ord("q"):
-		    break
+	# write code to find the actual path using a star
+
+
+
+
+def main():
+	pass
+
 
 if __name__ == '__main__':
 	main()
