@@ -66,5 +66,30 @@ def obstacleSpace(x,y,radius,clearance):
         flag = 1    
     return flag
 
+def draw_obstacle(x,y):
+    flag = 0    
+    point = Point(x,y)
+    rectangle = Polygon([(35, 76), (100, 39),(95, 30), (30, 68)])
+    complex_polygon = Polygon([(25, 185), (75, 185),(100, 150), (75, 120), (50,150), (20,120)])
+    kite = Polygon([(225, 40), (250, 25),(225, 10), (200, 25)])
+    #circle
+    if(((x - (225))**2 + (y - (150))**2 - (25)**2) <= 0) :
+        flag = 1
+    #ellipse
+    if (((x - (150))/(40))**2 + ((y - (100))/(20))**2 - 1) <= 0:
+        flag = 1
+    #check if point is inside polygon
+    if rectangle.contains(point) == True:
+        flag = 1
+    if complex_polygon.contains(point) == True:
+        flag = 1
+    if kite.contains(point) == True:
+        flag = 1
+    return flag
 
-print(obstacleSpace(100,75,0,0))
+def testMain():
+    print(obstacleSpace(100,75,0,0))
+    draw_obstacle(100,75)
+
+if __name__ == '__main__':
+    testMain()
