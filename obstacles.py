@@ -66,9 +66,33 @@ def obstacleSpace(x,y,radius,clearance):
         flag = 1    
     return flag
 
+def generateMap():
+    fig, ax = plt.subplots()
+    ax.set(xlim=(0, 300), ylim = (0,200))
+    ax.set_aspect('equal')
+    a_circle = plt.Circle((225,150), 025, color='b')
+
+    ellipse = Ellipse(xy=(157, 100), width=80, height=40, 
+                        edgecolor='b', fc='b', lw=2)
+    
+    # rectangle = plt.Rectangle(xy=(30.04,67.5), width=75, height=20, angle=150)
+    # rect_points = np.array((30.04,67.5), (95,30), ())
+    # rectangle = Polygon (xy=())
+    rectangle = plt.Polygon([(30.04, 67.5), (95, 30), (105, 47.32), (40.04, 84.82)]) 
+    polygon = plt.Polygon([(25, 185), (75, 185),(100, 150), (75, 120), (50,150), (20,120)])
+    kite = plt.Polygon([(200,25), (225,10), (250,25), (225,40)])
+
+    ax.add_patch(ellipse)
+    ax.add_artist(a_circle)
+    # ax.axis('equal')
+    ax.add_line(polygon)
+    ax.add_line(kite)
+    ax.add_line(rectangle)
+    plt.show()
 
 def testMain():
     print(obstacleSpace(100,75,0,0))
+    generateMap()
     
 
 if __name__ == '__main__':
