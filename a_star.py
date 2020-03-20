@@ -113,8 +113,11 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, dup
 		heapq.heapify(minheap)
 
 
-	def testMain():
+def testMain():
 	path, viz_nodes = aStar(start_pos=(1,1), goal_pos=(3,3), robot_radius=0, clearance=0, step_size=1, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
+
+	viz.explorationQuiver(viz_nodes)
+	viz.plainQuiver(path)
 
 
 
