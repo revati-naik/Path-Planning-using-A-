@@ -50,7 +50,7 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, dup
 
 	# defining the visited node like this avoids checking if two nodes are duplicate. because there is only 1 position to store the visited information for all the nodes that lie within this area.
 	visited = {}
-	visited[(round(start_r), round(start_c), 0)] = start_node 	# marking the start node as visited
+	visited[(utils.valRound(start_r), utils.valRound(start_c), 0)] = start_node 	# marking the start node as visited
 
 	viz_visited_coords = [start_node]
 
@@ -113,4 +113,10 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, dup
 		heapq.heapify(minheap)
 
 
-	
+	def testMain():
+	path, viz_nodes = aStar(start_pos=(1,1), goal_pos=(3,3), robot_radius=0, clearance=0, step_size=1, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
+
+
+
+	if __name__ == '__main__':
+		testMain()
