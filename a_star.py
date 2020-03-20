@@ -54,4 +54,63 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, dup
 
 	viz_visited_coords = [start_node]
 
+	while len(minheap) > 0:
+		_, curr_node = heapq.heappop(minheap)
+
+		# if curr_node.isDuplicate(goal_node):
+		if curr_node.goal_cost < duplicate_step_thresh:
+			print("Reached Goal!")
+			print("Current node:---")
+			curr_node.printNode()
+			print("Goal node:---")
+			goal_node.printNode()
+
+			# backtrack to get the path
+			path = actions.backtrack(curr_node, visited)
+			# path = None 	# FOR NOW FOR DEBUGGING PURPOSES
+
+			return (path, viz_visited_coords)
+
+		# for row_step, col_step in movement_steps:
+		for angle in range(0, 360, theta):
+			# Action Move
+			# next_node = actions.actionMove(curr_node, row_step, col_step)
+			next_node = actions.actionMove(current_node=curr_node, theta_step=angle, linear_step=step_size, goal_position=goal_node.current_coords)
+
+			if next_node is not None:
+				# if hit an obstacle, ignore this movement
+				if obstacles.withinObstacleSpace((next_node.current_coords[1], next_node.current_coords[0]), robot_radius, clearance):
+					continue
+
+				# Check if the current node has already been visited.
+				# If it has, then see if the current path is better than the previous one
+				# based on the total cost = movement cost + goal cost
+				node_state = (utils.valRound(next_node.current_coords[0]), utils.valRound(next_node.current_coords[1]), utils.orientationBin(next_node.orientation, theta))
+				
+				if node_state in visited:
+					# if current cost is a better cost
+					# if (next_node.movement_cost + next_node.goal_cost) < (visited[node_state].movement_cost + visited[node_state].goal_cost):
+					if (next_node < visited[node_state]):
+						visited[node_state].current_coords = next_node.current_coords
+						visited[node_state].parent_coords = next_node.parent_coords
+						visited[node_state].orientation = next_node.orientation
+						visited[node_state].parent_orientation = next_node.parent_orientation
+						visited[node_state].movement_cost = next_node.movement_cost
+						visited[node_state].goal_cost = next_node.goal_cost
+
+						h_idx = utils.findInHeap(next_node, minheap)
+						if (h_idx > -1):
+							minheap[h_idx] = ((next_node.movement_cost + next_node.goal_cost), next_node)
+				else:
+					# visited.append(next_node)
+					visited[node_state] = next_node
+					heapq.heappush(minheap, ((next_node.movement_cost + next_node.goal_cost), next_node))
+
+					viz_visited_coords.append(next_node)
+					# if visualize:
+					# 	utils.drawOnMap(viz_map, next_node.current_coords, visualize=visualize)
+
+		heapq.heapify(minheap)
+
+
 	
