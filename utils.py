@@ -35,3 +35,19 @@ def valRound(x):
 def euclideanDistance(state1, state2):
 	return np.sqrt(((state1[0] - state2[0]) ** 2) + ((state1[1] - state2[1]) ** 2))
 
+
+def testMain():
+	# print(euclideanDistance((10,10), (12,12)))
+
+	print((0.2), valRound(0.2))
+	print((0.7), valRound(0.7))
+	print((1.1), valRound(1.1))
+	print((5), valRound(5))
+	print((4.6), valRound(4.6))
+	print((4.5), valRound(4.5))
+	
+	pass
+
+
+if __name__ == '__main__':
+	testMain()
