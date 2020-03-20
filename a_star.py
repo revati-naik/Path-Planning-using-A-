@@ -44,4 +44,14 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, dup
 		print("ERROR: Invalid step_size. It must lie within 1 and 10.")
 		sys.exit(0)
 
+	# Saving a tuple with total cost and the state node
+	minheap = [((start_node.movement_cost + start_node.goal_cost), start_node)]
+	heapq.heapify(minheap)
+
+	# defining the visited node like this avoids checking if two nodes are duplicate. because there is only 1 position to store the visited information for all the nodes that lie within this area.
+	visited = {}
+	visited[(round(start_r), round(start_c), 0)] = start_node 	# marking the start node as visited
+
+	viz_visited_coords = [start_node]
+
 	
