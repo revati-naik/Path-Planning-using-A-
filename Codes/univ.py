@@ -28,7 +28,7 @@ def function(exploration_node_vector, path_node_vector):
 	ax.add_line(kite)
 	ax.add_line(rectangle)
 
-	colors = ['red', 'blue', 'green', 'yellow']
+	colors = ['red', 'pink', 'green', 'yellow']
 	color_i = 0
 
 	plt.ion()
@@ -51,7 +51,7 @@ def function(exploration_node_vector, path_node_vector):
 		u,v = uv
 		u -= x
 		v -= y
-		q = plt.quiver(x, y, u, v, units='xy', scale=1, color=colors[color_i%len(colors)])
+		q = plt.quiver(x, y, u, v, units='xy', scale=1, width=1.5, headwidth=2, headlength=2, color=colors[color_i%len(colors)])
 
 		# plt.plot(x, y, 'rqo')	
 
@@ -61,7 +61,7 @@ def function(exploration_node_vector, path_node_vector):
 		plt.pause(0.0001)
 
 
-	for node in path_node_vector:
+	for node in path_node_vector[:-1]:
 		plt.gca().set_aspect('equal')
 		plt.xlim(0, 300)
 		plt.ylim(0, 200)
@@ -80,8 +80,28 @@ def function(exploration_node_vector, path_node_vector):
 		u,v = uv
 		u -= x
 		v -= y
-		q = plt.quiver(x, y, u, v, units='xy', scale=1, color="black")
+		q = plt.quiver(x, y, u, v, units='xy', scale=1, width=1.5, headwidth=2, headlength=2, color="black")
 
 		plt.show()
 		plt.pause(0.01)
+	plt.ioff()
+	
+	plt.gca().set_aspect('equal')
+	plt.xlim(0, 300)
+	plt.ylim(0, 200)
 
+	plt.minorticks_on()
+	plt.grid(which='major', linestyle='-', linewidth='0.5', color='red')
+	plt.grid(which='minor', color='black')
+	plt.title('Vector plot', fontsize=25)
+
+	xy = path_node_vector[-1].getParentXYCoords()
+	uv = path_node_vector[-1].getXYCoords()
+	if xy is not None and uv is not None:
+		x,y = xy
+		u,v = uv
+		u -= x
+		v -= y
+		q = plt.quiver(x, y, u, v, units='xy', scale=1, width=1.5, headwidth=2, headlength=2, color="black")
+
+	plt.show()

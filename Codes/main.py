@@ -24,10 +24,26 @@ def main():
 	# User input for goal state
 	goal_c, goal_r = map(float, raw_input("Enter goal coordinates (x y): ").split())
 	
-
 	radius = float(input("Enter the robot radius: "))
 	clearance = float(input("Enter the clearance: "))
 	step_size = float(input("Enter the robot step_size: "))
+
+	# check if the start node lies withing the map and not on obstacles
+	if (start_r < actions.MIN_COORDS[1]) or (start_r >= actions.MAX_COORDS[1]) or (start_c < actions.MIN_COORDS[0]) or (start_c >= actions.MAX_COORDS[0]) or obstacles.withinObstacleSpace((start_c, start_r), radius, clearance):
+		print("ERROR: Invalid start node. It either lies outside the map boundary or within the obstacle region.")
+		sys.exit(0)
+
+	# check if the goal node lies withing the map and not on obstacles
+	if (goal_r < actions.MIN_COORDS[1]) or (goal_r >= actions.MAX_COORDS[1]) or (goal_c < actions.MIN_COORDS[0]) or (goal_c >= actions.MAX_COORDS[0]) or obstacles.withinObstacleSpace((goal_c, goal_r), radius, clearance):
+		print("ERROR: Invalid goal node. It either lies outside the map boundary or within the obstacle region.")
+		sys.exit(0)
+
+	# check is step size lies between 0 and 10
+	if step_size < 1 or step_size > 10:
+		print("ERROR: Invalid step_size. It must lie within 1 and 10.")
+		sys.exit(0)
+
+
 
 	# write code to find the actual path using a star
 	start_time = time.clock()
