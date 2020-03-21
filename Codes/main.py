@@ -43,6 +43,9 @@ def main():
 	path, viz_nodes = aStar(start_pos=(start_r,start_c), goal_pos=(goal_r,goal_c), robot_radius=radius, clearance=clearance, step_size=5, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 	print "Time to run A*:", time.clock() - start_time, "seconds"
 
+	# visualize path
+	univ.function(viz_nodes, path)
+
 
 if __name__ == '__main__':
 	main()
