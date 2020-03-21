@@ -72,6 +72,9 @@ def aStar(start_node, goal_node, robot_radius, clearance, step_size, theta=30):
 	# write code to find the actual path using a star
 	path, viz_nodes = aStar(start_pos=(start_r,start_c), goal_pos=(goal_r,goal_c), robot_radius=radius, clearance=clearance, step_size=5, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 
+	# visualize path
+	univ.function(viz_nodes, path)
+
 
 
 def main():
