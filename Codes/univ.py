@@ -28,6 +28,9 @@ def function(exploration_node_vector, path_node_vector):
 	ax.add_line(kite)
 	ax.add_line(rectangle)
 
+	# Adding the start node
+	plt.plot(x, y, color='#800080', marker='o', markersize=5)
+
 	colors = ['red', 'pink', 'green', 'yellow']
 	color_i = 0
 
@@ -103,5 +106,8 @@ def function(exploration_node_vector, path_node_vector):
 		u -= x
 		v -= y
 		q = plt.quiver(x, y, u, v, units='xy', scale=1, width=1.5, headwidth=2, headlength=2, color="black")
+
+	# Adding the start node
+	plt.plot(x, y, color='#7CFC00', marker='o', markersize=5)
 
 	plt.show()
