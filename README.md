@@ -4,7 +4,7 @@ Implement A* Algorithm to find the shortest path between start and endpoint.
 # ENPM661_Proj3_Phase2
 A* implementation for Rigid Robot
 
-The two main files are A_Star_rigid.py
+The main file is Astar_rigid.py
 
 ## Dependencies
 Numpy
@@ -16,7 +16,7 @@ time
 ## Instructions to run A* for a Rigid Robot
 ```python
 $ git clone https://github.com/revati-naik/Path-Palnning-using-A_Star.git
-$ python Codes/A_Star_rigid.py
+$ python codes/Astar_rigid.py
 ```
 The user will then be prompted for various inputs.
 Once the program finishes, the optimal path to the goal is displayed.
