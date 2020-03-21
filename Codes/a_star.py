@@ -122,18 +122,5 @@ def testMain():
 	univ.function(viz_nodes, path)
 
 
-	# obstacles.generateMap()
-
-	# plt.figure("map pickle")
-	# ax = pickle.load(file('map.pickle', 'r'))
-	# plt.show()
-
-
-	# viz.explorationQuiver(viz_nodes)
-
-	# viz.plainQuiver(path)
-
-
-
 if __name__ == '__main__':
 	testMain()
