@@ -12,6 +12,7 @@ import actions
 import obstacles
 import node
 import utils
+import a_star
 
 
 def main():
@@ -27,7 +28,7 @@ def main():
 
 	# write code to find the actual path using a star
 	start_time = time.clock()
-	path, viz_nodes = aStar(start_pos=(start_r,start_c), goal_pos=(goal_r,goal_c), robot_radius=radius, clearance=clearance, step_size=5, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
+	path, viz_nodes = a_star.aStar(start_pos=(start_r,start_c), goal_pos=(goal_r,goal_c), robot_radius=radius, clearance=clearance, step_size=5, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 	print "Time to run A*:", time.clock() - start_time, "seconds"
 
 	# visualize path
