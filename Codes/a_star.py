@@ -11,10 +11,11 @@ import actions
 import obstacles
 import node
 import utils
+import visualization as viz
 
 
 ##
-## Gets the dijkstra path.
+## Gets the A-Star path.
 ## In this algorithm, the heuristic cost from
 ## current node to goal node is not considered.
 ##
@@ -72,7 +73,7 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, dup
 			return (path, viz_visited_coords)
 
 		# for row_step, col_step in movement_steps:
-		for angle in range(0, 360, theta):
+		for angle in range(-60, 61, theta):
 			# Action Move
 			# next_node = actions.actionMove(curr_node, row_step, col_step)
 			next_node = actions.actionMove(current_node=curr_node, theta_step=angle, linear_step=step_size, goal_position=goal_node.current_coords)
@@ -116,10 +117,10 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, dup
 def testMain():
 	path, viz_nodes = aStar(start_pos=(1,1), goal_pos=(3,3), robot_radius=0, clearance=0, step_size=1, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 
-	viz.explorationQuiver(viz_nodes)
 	viz.plainQuiver(path)
+	viz.explorationQuiver(viz_nodes)
 
 
 
-	if __name__ == '__main__':
-		testMain()
+if __name__ == '__main__':
+	testMain()

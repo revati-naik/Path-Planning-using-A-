@@ -44,7 +44,6 @@ def explorationQuiver(node_vector):
 	# colors = ['red', 'blue', 'green', 'yellow']
 	# color_i = 0
 
-	# old_parent = None
 	# for node in node_vector:
 	# 	xy = node.getParentXYCoords()
 	# 	uv = node.getXYCoords()
@@ -58,12 +57,9 @@ def explorationQuiver(node_vector):
 
 	# 	# plt.plot(x, y, 'ro')	
 
-	# 	print(str(old_parent) + "\t\t\t\t" + str(xy) + "\t\t\t\t" + str(uv) + "\t\t\t\t" + colors[color_i % len(colors)])
 
-	# 	if old_parent != xy:
 	# 		color_i += 1
 
-	# 	old_parent = xy
 
 	# plt.gca().set_aspect('equal')
 	# plt.xlim(-5, 5)
@@ -77,14 +73,13 @@ def explorationQuiver(node_vector):
 	# plt.show()
 	# plt.close()
 	# 
-	plt.figure("exploration")
+	expl_fig = plt.figure("exploration")
 
 	colors = ['red', 'blue', 'green', 'yellow']
 	color_i = 0
 	plt.ion()
-	old_parent = None
 	for node in node_vector:
-		plt.gca().set_aspect('equal')
+		expl_fig.gca().set_aspect('equal')
 		plt.xlim(-5, 5)
 		plt.ylim(-5, 5)
 	
@@ -104,14 +99,11 @@ def explorationQuiver(node_vector):
 		v -= y
 		q = plt.quiver(x, y, u, v, units='xy', scale=1, color=colors[color_i%len(colors)])
 
+		# expl_fig.plot(x, y, 'rqo')	
 
-		# plt.plot(x, y, 'rqo')	
+		color_i += 1
 
-		print(str(old_parent) + "\t\t\t\t" + str(xy) + "\t\t\t\t" + str(uv) + "\t\t\t\t" + colors[color_i % len(colors)])
+		expl_fig.show()
+		plt.pause(0.02)
 
-		if old_parent != xy:
-			color_i += 1
-
-		old_parent = xy
-		plt.show()
-		plt.pause(0.1)
+	return expl_fig

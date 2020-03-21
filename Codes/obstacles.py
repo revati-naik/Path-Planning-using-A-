@@ -16,7 +16,7 @@ from shapely.geometry.polygon import Polygon
 ## :returns:   True if the point lies in the obstacle space. Otherwise False
 ## :rtype:     boolean
 ##
-def withinObstacleSpace(x,y,radius,clearance):
+def withinObstacleSpace((x,y),radius,clearance):
 
     flag = 0
     flag_1 = 0
