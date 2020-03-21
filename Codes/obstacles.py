@@ -84,6 +84,7 @@ def withinObstacleSpace((x,y),radius,clearance):
     return flag
 
 ##
+## Genarting the map for the obstacle space 
 ##
 def generateMap():
     fig, ax = plt.subplots()
