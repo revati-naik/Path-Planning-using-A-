@@ -14,6 +14,8 @@ import obstacles
 import node
 import utils
 import visualization as viz
+import univ
+
 
 
 ##
@@ -61,7 +63,7 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, dup
 		_, curr_node = heapq.heappop(minheap)
 
 		# if curr_node.isDuplicate(goal_node):
-		if curr_node.goal_cost < duplicate_step_thresh:
+		if curr_node.goal_cost < (1.5 * step_size):
 			print("Reached Goal!")
 			print("Current node:---")
 			curr_node.printNode()
@@ -110,23 +112,24 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, dup
 					heapq.heappush(minheap, ((next_node.movement_cost + next_node.goal_cost), next_node))
 
 					viz_visited_coords.append(next_node)
-					# if visualize:
-					# 	utils.drawOnMap(viz_map, next_node.current_coords, visualize=visualize)
 
 		heapq.heapify(minheap)
 
 
 def testMain():
-	path, viz_nodes = aStar(start_pos=(1,1), goal_pos=(3,3), robot_radius=0, clearance=0, step_size=1, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
+	path, viz_nodes = aStar(start_pos=(5,5), goal_pos=(50,50), robot_radius=0, clearance=0, step_size=5, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 
-	obstacles.generateMap()
+	univ.function(viz_nodes, path)
+
+
+	# obstacles.generateMap()
 
 	# plt.figure("map pickle")
-	ax = pickle.load(file('map.pickle', 'r'))
-	plt.show()
+	# ax = pickle.load(file('map.pickle', 'r'))
+	# plt.show()
 
 
-	# viz.explorationQuiver(viz_nodes, plt_ax=ax)
+	# viz.explorationQuiver(viz_nodes)
 
 	# viz.plainQuiver(path)
 
