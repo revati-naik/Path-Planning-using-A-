@@ -3,6 +3,8 @@ import cv2
 import copy
 import numpy as np
 import heapq
+import matplotlib.pyplot as plt
+import pickle
 
 import sys
 sys.dont_write_bytecode = True
@@ -117,8 +119,16 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, dup
 def testMain():
 	path, viz_nodes = aStar(start_pos=(1,1), goal_pos=(3,3), robot_radius=0, clearance=0, step_size=1, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 
-	viz.plainQuiver(path)
-	viz.explorationQuiver(viz_nodes)
+	obstacles.generateMap()
+
+	# plt.figure("map pickle")
+	ax = pickle.load(file('map.pickle', 'r'))
+	plt.show()
+
+
+	# viz.explorationQuiver(viz_nodes, plt_ax=ax)
+
+	# viz.plainQuiver(path)
 
 
 

@@ -1,5 +1,8 @@
 from shapely.geometry import Point
 from shapely.geometry.polygon import Polygon
+from matplotlib.patches import Ellipse
+import matplotlib.pyplot as plt
+import pickle
 
 ##
 ## Defining the obstacle space and checking if the point coordinate is within the obstacle space
@@ -103,11 +106,13 @@ def generateMap():
     ax.add_line(polygon)
     ax.add_line(kite)
     ax.add_line(rectangle)
-    plt.show()
+
+    pickle.dump(ax, file('map.pickle', 'wb'))
+
 
 def testMain():
-    print(obstacleSpace(100,75,0,0))
-    generateMap()
+    print(withinObstacleSpace((100,75),0,0))
+    # generateMap()
     
 
 if __name__ == '__main__':
