@@ -107,3 +107,4 @@ def explorationQuiver(node_vector):
 		plt.pause(0.02)
 
 	return expl_fig
+
