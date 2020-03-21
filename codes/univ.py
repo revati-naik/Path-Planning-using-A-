@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 import node
 
 
-def function(exploration_node_vector, path_node_vector):
+def function(exploration_node_vector, path_node_vector, goal_node, step_size):
 
 	fig, ax = plt.subplots()
 	ax.set(xlim=(0, 300), ylim = (0,200))
@@ -31,6 +31,11 @@ def function(exploration_node_vector, path_node_vector):
 	# Adding the start node
 	xs, ys = path_node_vector[0].getXYCoords()
 	plt.plot(xs, ys, color='#EE82EE', marker='o', markersize=15)
+
+    	# Adding the goal node
+	# xg, yg = path_node_vector[-1].getXYCoords()
+	xg, yg = goal_node.getXYCoords()
+	plt.plot(xg, yg, color='#7CFC00', marker='o', markersize=15)
 
 	colors = ['red', 'pink', 'green', 'yellow']
 	color_i = 0
@@ -107,9 +112,5 @@ def function(exploration_node_vector, path_node_vector):
 		u -= x
 		v -= y
 		q = plt.quiver(x, y, u, v, units='xy', scale=1, width=1.5, headwidth=2, headlength=2, color="black")
-
-	# Adding the start node
-	xg, yg = path_node_vector[-1].getXYCoords()
-	plt.plot(xg, yg, color='#7CFC00', marker='o', markersize=15)
 
 	plt.show()

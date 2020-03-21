@@ -51,7 +51,8 @@ def main():
 	print "Time to run A*:", time.clock() - start_time, "seconds"
 
 	# visualize path
-	univ.function(viz_nodes, path)
+        goal_node = node.Node(current_coords=(goal_r, goal_c), parent_coords=None, orientation=None, parent_orientation=None, movement_cost=None, goal_cost=0)
+	univ.function(viz_nodes, path, goal_node, step_size)
 
 
 if __name__ == '__main__':
