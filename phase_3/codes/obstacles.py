@@ -25,101 +25,112 @@ def withinObstacleSpace((x,y),radius,clearance):
     flag_1 = 0
     flag_2 = 0
     point = Point(x,y)
-    rectangle = Polygon([(35, 76), (100, 39),(95, 30), (30, 68)])
-    complex_polygon = Polygon([(25, 185), (75, 185),(100, 150), (75, 120), (50,150), (20,120)])
-    kite = Polygon([(225, 40), (250, 25),(225, 10), (200, 25)])
-    
-    #kite
-    kite_line_1 = ((y-25)*25) + ((x-200)*15)
-    kite_line_2 = ((y-10)*25) - ((x-225)*15)
-    kite_line_3 = ((y-25)*25) + ((x-250)*15)
-    kite_line_4 = ((y-40)*25) - ((x-225)*15)
-    
-    #rectangle
-    # rect_line_1 = ((y-76)*65) + ((x-35)*37)
-    # rect_line_2 = ((y-39)*5) - ((x-100)*9)
-    # rect_line_3 = ((y-30)*65) + ((x-95)*38)
-    # rect_line_4 = ((y-68)*5) - ((x-30)*8)
+    rectangle_1 = Polygon([(-1.25,2.25), (-1.25,3.75), (-2.75,3.75), (-2.75,2.25)]) 
+    rectangle_2 = Polygon([(-3.25,-0.25), (-3.25,1.25), (-4.75,1.25), (-4.75,-0.25)]) 
+    rectangle_3 = Polygon([(4.75,-0.25), (4.75,1.25), (3.25,1.25), (3.25,-0.25)]) 
 
-    rect_line_1 = ((y-67.5)*65.04) + ((x-30.04)*37.5)
-    rect_line_2 = ((y-30)*10) - ((x-95)*17.32)
-    rect_line_3 = ((y-47.32)*(-64.96)) - ((x-105)*37.5)
-    rect_line_4 = ((y-84.87)*10) + ((x-40.04)*17.32)
-    
-    #complex polygon
-    quad_1_1 = 5*y+6*x-1050
-    quad_1_2 = 5*y-6*x-150
-    quad_1_3 = 5*y+7*x-1450
-    quad_1_4 = 5*y-7*x-400
-    
-    quad_2_1 = ((y-185)*5) - ((x-25)*65)
-    quad_2_2 = ((y-120)*30) - ((x-20)*30)
-    quad_2_3 = ((y-150)*25) - ((x-50)*35)
-    quad_2_4 = ((y-185)*(-50))
-    
-    #check kite
-    if kite_line_1 > 0 and kite_line_2 > 0 and kite_line_3 < 0 and kite_line_4 < 0 or point.distance(kite) <= radius+clearance:
-        flag = 1
+    #rectangle 1
+    rect_1_1 = (x+1.25)*(1.5)
+    rect_1_2 = (y-3.75)*(-1.5)
+    rect_1_3 = (x+2.75)*(-1.5)
+    rect_1_4 = (y-2.25)*(-1.5)
+
+    print(rect_1_1)
+    print(rect_1_2)
+    print(rect_1_3)
+    print(rect_1_4)
+
+    print("-----------------------")
+
+    #rectangle 2
+    rect_2_1 = (x+4.75)*(1.5)
+    rect_2_2 = (y+0.25)*(-1.5)
+    rect_2_3 = (x+3.2)*(1.5)
+    rect_2_4 = (y-1.25)*(-1.5)
+
+    print(rect_2_1)
+    print(rect_2_2)
+    print(rect_2_3)
+    print(rect_2_4)
+
+    print("-----------------------")
+
+    #rectangle 3
+    rect_3_1 = (y+0.25)*(1.5)
+    rect_3_2 = (x-4.75)*(1.5)
+    rect_3_3 = (y-1.25)*(-1.5)
+    rect_3_4 = (x-3.25)*(1.5)
+
+    print(rect_3_1)
+    print(rect_3_2)
+    print(rect_3_3)
+    print(rect_3_4)
+
+    print("-----------------------")
+
     
     #check rectangle
-    if rect_line_1 < 0 and rect_line_2 > 0 and rect_line_3 > 0 and rect_line_4 < 0 or point.distance(rectangle) <= radius+clearance:
+    if rect_1_1 < 0 and rect_1_2 > 0 and rect_1_3 < 0 and rect_1_4 > 0 or point.distance(rectangle_1) <= radius+clearance:
+        print("In Rectangle 1")
         flag = 1
     
-    #check polygon
-    if quad_1_1>0 and quad_1_2>0 and quad_1_3<0 and quad_1_4<0:
-        flag_1 = 1
-    else:
-        flag_1 = 0
-
-    if quad_2_1 < 0 and quad_2_2 > 0 and quad_2_3 > 0 and quad_2_4 > 0:
-        flag_2 = 1
-    else:
-        flag_2 = 0
-
-    if flag_1 == 1 or flag_2 == 1 or point.distance(complex_polygon) <= radius+clearance:
+    if rect_2_1 > 0 and rect_2_2 < 0 and rect_2_3 < 0 and rect_2_4 > 0 or point.distance(rectangle_2) <= radius+clearance:
+        print("In Rectangle 2")
         flag = 1
     
+    if rect_3_1 > 0 and rect_3_2 < 0 and rect_3_3 > 0 and rect_3_4 > 0 or point.distance(rectangle_3) <= radius+clearance:
+        print("In Rectangle 3")
+        flag = 1
+    
+
     #circle
-    if(((x - (225))**2 + (y - (150))**2 - (25+radius+clearance)**2) <= 0) :
+    if(((x - (0))**2 + (y - (0))**2 - (1+radius+clearance)**2) <= 0) :
+        print("In circle 1")
         flag = 1
-        
-    #ellipse
-    if (((x - (150))/(40+radius+clearance))**2 + ((y - (100))/(20+radius+clearance))**2 - 1) <= 0:
-        flag = 1    
-    return flag
+    if(((x - (-2))**2 + (y - (-3))**2 - (1+radius+clearance)**2) <= 0) :
+        print("In circle 2")
+        flag = 1
+    if(((x - (2))**2 + (y - (-3))**2 - (1+radius+clearance)**2) <= 0) :
+        print("In circle 3")
+        flag = 1
+    if(((x - (2))**2 + (y - (3))**2 - (1+radius+clearance)**2) <= 0) :
+        print("In circle 4")
+        flag = 1
+
+
+    return flag    
 
 ##
 ## Genarting the map for the obstacle space 
 ##
 def generateMap():
     fig, ax = plt.subplots()
-    ax.set(xlim=(0, 300), ylim = (0,200))
+    ax.set(xlim=(-5, 5), ylim = (-5, 5))
     ax.set_aspect('equal')
-    a_circle = plt.Circle((225,150), 025, color='b')
-
-    ellipse = Ellipse(xy=(157, 100), width=80, height=40, 
-                        edgecolor='b', fc='b', lw=2)
+    circle_1 = plt.Circle((0,0), 1, color='b')
+    circle_2 = plt.Circle((-2,-3), 1, color='b')
+    circle_3 = plt.Circle((2,-3), 1, color='b')
+    circle_4 = plt.Circle((2,3), 1, color='b')
     
-    # rectangle = plt.Rectangle(xy=(30.04,67.5), width=75, height=20, angle=150)
-    # rect_points = np.array((30.04,67.5), (95,30), ())
-    # rectangle = Polygon (xy=())
-    rectangle = plt.Polygon([(30.04, 67.5), (95, 30), (105, 47.32), (40.04, 84.82)]) 
-    polygon = plt.Polygon([(25, 185), (75, 185),(100, 150), (75, 120), (50,150), (20,120)])
-    kite = plt.Polygon([(200,25), (225,10), (250,25), (225,40)])
+    rectangle_1 = plt.Polygon([(-1.25,2.25), (-1.25,3.75), (-2.75,3.75), (-2.75,2.25)]) 
+    rectangle_2 = plt.Polygon([(-3.25,-0.25), (-3.25,1.25), (-4.75,1.25), (-4.75,-0.25)]) 
+    rectangle_3 = plt.Polygon([(4.75,-0.25), (4.75,1.25), (3.25,1.25), (3.25,-0.25)]) 
 
-    ax.add_patch(ellipse)
-    ax.add_artist(a_circle)
-    ax.add_line(polygon)
-    ax.add_line(kite)
-    ax.add_line(rectangle)
+    ax.add_artist(circle_1)
+    ax.add_artist(circle_2)
+    ax.add_artist(circle_3)
+    ax.add_artist(circle_4)
+    ax.add_line(rectangle_1)
+    ax.add_line(rectangle_2)
+    ax.add_line(rectangle_3)
 
-    pickle.dump(ax, file('map.pickle', 'wb'))
-
+    # pickle.dump(ax, file('map.pickle', 'wb'))
+    plt.show()
 
 def testMain():
-    # print(withinObstacleSpace((35,68),0,0))
-    # generateMap()
-    pass
+    withinObstacleSpace((2,3),0,0)
+    generateMap()
+    
     
 
 if __name__ == '__main__':
