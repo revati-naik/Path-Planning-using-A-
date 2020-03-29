@@ -36,10 +36,15 @@ def withinObstacleSpace((x,y),radius,clearance):
     kite_line_4 = ((y-40)*25) - ((x-225)*15)
     
     #rectangle
-    rect_line_1 = ((y-76)*65) + ((x-35)*37)
-    rect_line_2 = ((y-39)*5) - ((x-100)*9)
-    rect_line_3 = ((y-30)*65) + ((x-95)*38)
-    rect_line_4 = ((y-68)*5) - ((x-30)*8)
+    # rect_line_1 = ((y-76)*65) + ((x-35)*37)
+    # rect_line_2 = ((y-39)*5) - ((x-100)*9)
+    # rect_line_3 = ((y-30)*65) + ((x-95)*38)
+    # rect_line_4 = ((y-68)*5) - ((x-30)*8)
+
+    rect_line_1 = ((y-67.5)*65.04) + ((x-30.04)*37.5)
+    rect_line_2 = ((y-30)*10) - ((x-95)*17.32)
+    rect_line_3 = ((y-47.32)*(-64.96)) - ((x-105)*37.5)
+    rect_line_4 = ((y-84.87)*10) + ((x-40.04)*17.32)
     
     #complex polygon
     quad_1_1 = 5*y+6*x-1050
@@ -112,8 +117,9 @@ def generateMap():
 
 
 def testMain():
-    print(withinObstacleSpace((100,75),0,0))
+    # print(withinObstacleSpace((35,68),0,0))
     # generateMap()
+    pass
     
 
 if __name__ == '__main__':
