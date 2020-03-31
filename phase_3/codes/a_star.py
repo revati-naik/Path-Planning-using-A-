@@ -17,6 +17,8 @@ import visualization as viz
 import univ
 
 
+robot_radius = 177
+wheel_distance = 354
 
 ##
 ## Gets the A-Star path.
@@ -26,7 +28,7 @@ import univ
 ## :param      input_map:  The input map
 ## :type       input_map:  { type_description }
 ##
-def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30):
+def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, theta, step_size=1, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30):
 
 	start_r, start_c = start_pos
 	goal_r, goal_c = goal_pos
@@ -63,10 +65,15 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, dup
 			return (path, viz_visited_coords)
 
 		# for row_step, col_step in movement_steps:
-		for angle in range(-60, 61, theta):
+		# for angle in range(-60, 61, theta):
+		action_set = [[0,rpm1], [rpm1,0],
+				[0,rpm2], [rpm2,0],
+				[rpm1,rpm2], [rpm2,rpm1],
+				[rpm1,rpm1], [rpm2,rpm2]]
+		for action in action_set:
 			# Action Move
 			# next_node = actions.actionMove(curr_node, row_step, col_step)
-			next_node = actions.actionMove(current_node=curr_node, theta_step=angle, linear_step=step_size, goal_position=goal_node.current_coords)
+			next_node = actions.actionMove(current_node=curr_node, next_action=action, theta=theta, goal_position=goal_node.current_coords)
 
 			if next_node is not None:
 				# if hit an obstacle, ignore this movement
@@ -103,7 +110,8 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, step_size, theta=30, dup
 
 
 def testMain():
-	path, viz_nodes = aStar(start_pos=(5,5), goal_pos=(50,50), robot_radius=0, clearance=0, step_size=5, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
+	# path, viz_nodes = aStar(start_pos=(5,5), goal_pos=(50,50), robot_radius=0, clearance=0, step_size=5, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
+	path, viz_nodes = aStar(start_pos=(5,5), goal_pos=(50,50), robot_radius=0, clearance=0, rpm1=10, rpm2=20, theta=20,  step_size=1, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 
 	univ.function(viz_nodes, path)
 

@@ -2,6 +2,7 @@ import numpy as np
 
 import node
 import utils
+import math
 
 
 # input_map_dummy = np.zeros((200, 300))
@@ -9,6 +10,10 @@ import utils
 # stored in the (x,y) format
 MIN_COORDS = (0, 0)
 MAX_COORDS = (300, 200)
+rpm1 = 10
+rpm2 = 20
+r = 10
+l = 10
 
 
 ##
@@ -29,29 +34,41 @@ MAX_COORDS = (300, 200)
 ## :returns:   Node for the new position in case of valid movement, None otherwise
 ## :rtype:     Node
 ##
-def actionMove(current_node, theta_step, linear_step, goal_position=None):
+# def actionMove(current_node, theta_step, linear_step, goal_position=None):
+def actionMove(current_node, next_action, theta, goal_position=None):
 	# move as per the given direction and linear_step
 	# check if the new position lies within the defined map 
 	# check if the new position is valid and does not collide with an obstacle
-	xf = current_node.current_coords[1] + np.array(linear_step * np.cos((current_node.orientation + theta_step) * np.pi/180))
-	yf = current_node.current_coords[0] + np.array(linear_step * np.sin((current_node.orientation + theta_step) * np.pi/180))
+	# xf = current_node.current_coords[1] + np.array(linear_step * np.cos((current_node.orientation + theta_step) * np.pi/180))
+	# yf = current_node.current_coords[0] + np.array(linear_step * np.sin((current_node.orientation + theta_step) * np.pi/180))
 
-	if (xf < MIN_COORDS[0]) or (xf >= MAX_COORDS[0]) or (yf < MIN_COORDS[1]) or (yf >= MAX_COORDS[1]):
-		return None
+	# if (xf < MIN_COORDS[0]) or (xf >= MAX_COORDS[0]) or (yf < MIN_COORDS[1]) or (yf >= MAX_COORDS[1]):
+	# 	return None                 
 
-	cc = (yf, xf)
-	pc = current_node.current_coords
-	ori = current_node.orientation + theta_step
-	pori = current_node.orientation
-	mc = current_node.movement_cost + linear_step
-	if goal_position is None:
-		gc = None
-	else:
-		gc = utils.euclideanDistance(cc, goal_position)
+	# cc = (yf, xf)
+	# pc = current_node.current_coords
+	# ori = current_node.orientation + theta_step
+	# pori = current_node.orientation
+	# mc = current_node.movement_cost + linear_step
+	# if goal_position is None:
+	# 	gc = None
+	# else:
+	# 	gc = utils.euclideanDistance(cc, goal_position)
 
-	ret_val = node.Node(current_coords=cc, parent_coords=pc, orientation=ori, parent_orientation=pori, movement_cost=mc, goal_cost=gc)
+	# ret_val = node.Node(current_coords=cc, parent_coords=pc, orientation=ori, parent_orientation=pori, movement_cost=mc, goal_cost=gc)
 
-	return ret_val
+	# 8 connected action set
+	u_r = next_action[0]
+	u_l = next_action[1]
+
+	dx = (r*(u_r+u_l)*math.cos(theta))/2
+	dy = (r*(u_r+u_l)*math.sin(theta))/2
+	dtheta = (r*(u_r-u_l)*l)
+	print("dx", dx)
+	print("dy", dy)
+	print("d theta", dtheta)
+
+	return dx,dy,dtheta
 
 
 ##
@@ -84,21 +101,27 @@ def backtrack(node, visited_nodes):
 
 
 def testMain():
-	start_node = node.Node((1,1), parent_coords=None, movement_cost=0, goal_cost=10)
-	print("--- start_node ---")
-	start_node.printNode()
+	# start_node = node.Node((1,1), parent_coords=None, movement_cost=0, goal_cost=10)
+	# print("--- start_node ---")
+	# start_node.printNode()
 	
-	new_node = actionMove(current_node=start_node, theta_step=0, linear_step=1)
-	print("--- new_node ---")
-	new_node.printNode()
+	# new_node = actionMove(current_node=start_node, theta_step=0, linear_step=1)
+	# print("--- new_node ---")
+	# new_node.printNode()
 
-	plt.figure("action move check")
-	plotVector.plotVector(start_node.current_coords, directions=[0], steps=[1], vector_colors=["black"])
-	plt.plot(start_node.current_coords[1], start_node.current_coords[0], 'ro')
-	plt.plot(new_node.current_coords[1], new_node.current_coords[0], 'go')
-	plt.show()
-	plt.close()
+	# plt.figure("action move check")
+	# plotVector.plotVector(start_node.current_coords, directions=[0], steps=[1], vector_colors=["black"])
+	# plt.plot(start_node.current_coords[1], start_node.current_coords[0], 'ro')
+	# plt.plot(new_node.current_coords[1], new_node.current_coords[0], 'go')
+	# plt.show()
+	# plt.close()
 
+	action_set = [[0,rpm1], [rpm1,0],
+				[0,rpm2], [rpm2,0],
+				[rpm1,rpm2], [rpm2,rpm1],
+				[rpm1,rpm1], [rpm2,rpm2]]
+	for action in action_set:
+		actionMove((1,1), action, 30, (10,10))
 
 if __name__ == '__main__':
 	testMain()
