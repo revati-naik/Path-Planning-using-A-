@@ -74,7 +74,7 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, theta, step_
 			# Action Move
 			# next_node = actions.actionMove(curr_node, row_step, col_step)
 			next_node = actions.actionMove(current_node=curr_node, next_action=action, theta=theta, goal_position=goal_node.current_coords)
-
+			sys.exit(0)
 			if next_node is not None:
 				# if hit an obstacle, ignore this movement
 				if obstacles.withinObstacleSpace((next_node.current_coords[1], next_node.current_coords[0]), robot_radius, clearance):
@@ -111,7 +111,7 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, theta, step_
 
 def testMain():
 	# path, viz_nodes = aStar(start_pos=(5,5), goal_pos=(50,50), robot_radius=0, clearance=0, step_size=5, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
-	path, viz_nodes = aStar(start_pos=(5,5), goal_pos=(50,50), robot_radius=0, clearance=0, rpm1=10, rpm2=20, theta=20,  step_size=1, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
+	path, viz_nodes = aStar(start_pos=(1,1), goal_pos=(50,50), robot_radius=0, clearance=0, rpm1=10, rpm2=20, theta=20,  step_size=1, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 
 	univ.function(viz_nodes, path)
 

@@ -1,3 +1,4 @@
+
 import numpy as np
 
 import node
@@ -12,8 +13,8 @@ MIN_COORDS = (0, 0)
 MAX_COORDS = (300, 200)
 rpm1 = 10
 rpm2 = 20
-r = 10
-l = 10
+r = 1
+l = 1
 
 
 ##
@@ -63,12 +64,24 @@ def actionMove(current_node, next_action, theta, goal_position=None):
 
 	dx = (r*(u_r+u_l)*math.cos(theta))/2
 	dy = (r*(u_r+u_l)*math.sin(theta))/2
-	dtheta = (r*(u_r-u_l)*l)
-	print("dx", dx)
-	print("dy", dy)
-	print("d theta", dtheta)
+	cc = (dx, dy)
+	pc = current_node.current_coords
 
-	return dx,dy,dtheta
+	dtheta = (r*(u_r-u_l)*l)
+	ori = current_node.orientation + dtheta
+
+	# mc = current_node.movement_cost 
+	# print("dx", dx)
+	# print("dy", dy)
+	# print("d theta", dtheta)
+	# 
+	print("cc",cc)
+	print("pc",pc)
+	print("ori",ori)
+
+	# ret_val = node.Node(current_coords=cc, parent_coords=pc, orientation=ori, parent_orientation=pori, movement_cost=mc, goal_cost=gc)
+
+	
 
 
 ##
