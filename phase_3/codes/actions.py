@@ -1,4 +1,4 @@
-
+from __future__ import print_function
 import numpy as np
 
 import node
@@ -13,8 +13,8 @@ MIN_COORDS = (0, 0)
 MAX_COORDS = (300, 200)
 rpm1 = 10
 rpm2 = 20
-r = 1
-l = 1
+import sys
+
 
 
 ##
@@ -36,52 +36,66 @@ l = 1
 ## :rtype:     Node
 ##
 # def actionMove(current_node, theta_step, linear_step, goal_position=None):
-def actionMove(current_node, next_action, theta, goal_position=None):
-	# move as per the given direction and linear_step
-	# check if the new position lies within the defined map 
-	# check if the new position is valid and does not collide with an obstacle
-	# xf = current_node.current_coords[1] + np.array(linear_step * np.cos((current_node.orientation + theta_step) * np.pi/180))
-	# yf = current_node.current_coords[0] + np.array(linear_step * np.sin((current_node.orientation + theta_step) * np.pi/180))
-
-	# if (xf < MIN_COORDS[0]) or (xf >= MAX_COORDS[0]) or (yf < MIN_COORDS[1]) or (yf >= MAX_COORDS[1]):
-	# 	return None                 
-
-	# cc = (yf, xf)
-	# pc = current_node.current_coords
-	# ori = current_node.orientation + theta_step
-	# pori = current_node.orientation
-	# mc = current_node.movement_cost + linear_step
-	# if goal_position is None:
-	# 	gc = None
-	# else:
-	# 	gc = utils.euclideanDistance(cc, goal_position)
-
-	# ret_val = node.Node(current_coords=cc, parent_coords=pc, orientation=ori, parent_orientation=pori, movement_cost=mc, goal_cost=gc)
-
+def actionMove(current_node, next_action, goal_position):
+	
 	# 8 connected action set
+	# print(current_node.current_coords)
+	# sys.exit(0)
 	u_r = next_action[0]
 	u_l = next_action[1]
+	t = 0
+	mc = 0
+	gc = 0
+	dt = 0.1
+	r = 1
+	l = 1
+	# x = current_node.current_coords[0]
+	dx = current_node.current_coords[0]
+	# y = current_node.current_coords[1]
+	dy = current_node.current_coords[1]
+	dtheta = current_node.orientation
+	theta = math.radians(dtheta)
+	while t < 1:
+		t = t + dt
+		x = dx
+		y = dy
+		dx += (r*(u_r+u_l)*math.cos(math.radians(theta))/2)*dt
+		dy += (r*(u_r+u_l)*math.sin(math.radians(theta))/2)*dt
+		dtheta += (r*(u_r-u_l)*l)*dt
+		mc += utils.euclideanDistance((x,y), (dx,dy))
+		# print(mc)
 
-	dx = (r*(u_r+u_l)*math.cos(theta))/2
-	dy = (r*(u_r+u_l)*math.sin(theta))/2
 	cc = (dx, dy)
 	pc = current_node.current_coords
+	# print("cc", cc)
+	# print("pc", pc)
+	# print("theta", dtheta)
+	ori = dtheta
+	pori = current_node.orientation
 
-	dtheta = (r*(u_r-u_l)*l)
-	ori = current_node.orientation + dtheta
-
-	# mc = current_node.movement_cost 
-	# print("dx", dx)
-	# print("dy", dy)
-	# print("d theta", dtheta)
-	# 
-	print("cc",cc)
-	print("pc",pc)
-	print("ori",ori)
-
-	# ret_val = node.Node(current_coords=cc, parent_coords=pc, orientation=ori, parent_orientation=pori, movement_cost=mc, goal_cost=gc)
-
+	# # cost to reach parent node + latest travel from parent node to current node 
+	# mc = current_node.movement_cost + step_size
+	# # calculate goal cost between current node to goal node
+	gc = utils.euclideanDistance(cc, goal_position)
+	# print("gc", gc)
 	
+	if (cc[0] < MIN_COORDS[0]) or (cc[0] >= MAX_COORDS[0]) or (cc[1] < MIN_COORDS[1]) or (cc[1] >= MAX_COORDS[1]):
+		return None 
+	 
+	# # print("cc",cc)
+	# # print("pc",pc)
+	# # print("ori",ori)
+	# # print("pori", pori)
+	# # print("mc", mc)
+	# # print("gc", gc)
+
+	ret_val = node.Node(current_coords=cc, parent_coords=pc, orientation=dtheta, parent_orientation=pori, movement_cost=mc, goal_cost=gc)
+	# print("costs:", ret_val.movement_cost, "+", ret_val.goal_cost, "=", ret_val.movement_cost + ret_val.goal_cost)
+	# print(ret_val.goal_cost)
+	# print(ret_val.movement_cost)
+	# sys.exit()
+
+	return ret_val
 
 
 ##
@@ -134,7 +148,7 @@ def testMain():
 				[rpm1,rpm2], [rpm2,rpm1],
 				[rpm1,rpm1], [rpm2,rpm2]]
 	for action in action_set:
-		actionMove((1,1), action, 30, (10,10))
+		actionMove((1,1), action, 30, (10,10), step_size=1)
 
 if __name__ == '__main__':
 	testMain()

@@ -35,12 +35,12 @@ def withinObstacleSpace((x,y),radius,clearance):
     rect_1_3 = (x+2.75)*(-1.5)
     rect_1_4 = (y-2.25)*(-1.5)
 
-    print(rect_1_1)
-    print(rect_1_2)
-    print(rect_1_3)
-    print(rect_1_4)
+    # print(rect_1_1)
+    # print(rect_1_2)
+    # print(rect_1_3)
+    # print(rect_1_4)
 
-    print("-----------------------")
+    # print("-----------------------")
 
     #rectangle 2
     rect_2_1 = (x+4.75)*(1.5)
@@ -48,12 +48,12 @@ def withinObstacleSpace((x,y),radius,clearance):
     rect_2_3 = (x+3.2)*(1.5)
     rect_2_4 = (y-1.25)*(-1.5)
 
-    print(rect_2_1)
-    print(rect_2_2)
-    print(rect_2_3)
-    print(rect_2_4)
+    # print(rect_2_1)
+    # print(rect_2_2)
+    # print(rect_2_3)
+    # print(rect_2_4)
 
-    print("-----------------------")
+    # print("-----------------------")
 
     #rectangle 3
     rect_3_1 = (y+0.25)*(1.5)
@@ -61,12 +61,12 @@ def withinObstacleSpace((x,y),radius,clearance):
     rect_3_3 = (y-1.25)*(-1.5)
     rect_3_4 = (x-3.25)*(1.5)
 
-    print(rect_3_1)
-    print(rect_3_2)
-    print(rect_3_3)
-    print(rect_3_4)
+    # print(rect_3_1)
+    # print(rect_3_2)
+    # print(rect_3_3)
+    # print(rect_3_4)
 
-    print("-----------------------")
+    # print("-----------------------")
 
     
     #check rectangle
@@ -99,6 +99,11 @@ def withinObstacleSpace((x,y),radius,clearance):
 
 
     return flag    
+
+
+def withinObstacleSpaceFake((x,y),radius,clearance):
+    return False
+
 
 ##
 ## Genarting the map for the obstacle space 
