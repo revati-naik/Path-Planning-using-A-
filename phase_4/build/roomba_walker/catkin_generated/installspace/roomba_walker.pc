@@ -1,0 +1,8 @@
+prefix=/home/revati/UMD/ENPM661/Projects/Path-Planning-using-A_Star/phase_4/install
+
+Name: roomba_walker
+Description: Description of roomba_walker
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

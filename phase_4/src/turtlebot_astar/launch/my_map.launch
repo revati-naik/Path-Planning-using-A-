@@ -1,0 +1,20 @@
+<launch>
+	<!-- Run the Gazebo Simulation World -->
+	<!-- <include file="$(find turtlebot3_gazebo)/launch/turtlebot3_empty_world.launch"> -->
+	<include file="$(find gazebo_ros)/launch/empty_world.launch"> 
+		<arg name="world_name" value="$(find turtlebot_astar)/world/map.world"/>  
+	</include> 
+	
+	<arg name="robot_name" value="turtlebot3_burger"/>
+	<arg name="initial_pose_x" value="-4.0"/>
+	<arg name="initial_pose_y" value="-4.0"/>
+	<arg name="initial_pose_a" value="0.0"/>
+
+	<param name="robot_description" command="$(find xacro)/xacro --inorder '$(find turtlebot3_description)/urdf/$(arg robot_name).urdf.xacro'"/>
+
+	<node pkg="gazebo_ros" type="spawn_model" name="spawn_$(arg robot_name)" 
+        args="-x $(arg initial_pose_x) -y $(arg initial_pose_y) -Y $(arg initial_pose_a)
+        -unpause -urdf -param robot_description -model $(arg robot_name)" respawn="false">
+    </node>
+
+</launch>
