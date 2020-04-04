@@ -29,12 +29,12 @@ wheel_distance = 1
 ## :param      input_map:  The input map
 ## :type       input_map:  { type_description }
 ##
-def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, theta, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30):
+def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, starting_theta, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30):
 
 	start_r, start_c = start_pos
 	goal_r, goal_c = goal_pos
 
-	start_node = node.Node(current_coords=(start_r, start_c), parent_coords=None, orientation=0, parent_orientation=None, movement_cost=0, goal_cost=utils.euclideanDistance(start_pos, goal_pos))
+	start_node = node.Node(current_coords=(start_r, start_c), parent_coords=None, orientation=starting_theta, parent_orientation=None, movement_cost=0, goal_cost=utils.euclideanDistance(start_pos, goal_pos))
 	# start_node.printNode()
 
 	# print(start_node.goal_cost)
@@ -47,20 +47,20 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, theta, dupli
 	heapq.heapify(minheap)
 
 	# defining the visited node like this avoids checking if two nodes are duplicate. because there is only 1 position to store the visited information for all the nodes that lie within this area.
+	# redefine valRound function to be more general. Right now the duplicate_step and duplicate_theta values are 0.5 and 30
 	visited = {}
-	visited[(utils.valRound(start_r), utils.valRound(start_c), 0)] = start_node 	# marking the start node as visited
+	visited[(utils.valRound(start_r), utils.valRound(start_c), starting_theta)] = start_node 	# marking the start node as visited
 
 	viz_visited_coords = [start_node]
 	# print(visited)
 
-	itr = 4
 	while len(minheap) > 0:
 		# print("len(minheap):", len(minheap))
 		_, curr_node = heapq.heappop(minheap)
 		# print(curr_node.goal_cost)
 		# if curr_node.isDuplicate(goal_node):	
 		
-		print("curr_node:")
+		print("curr_node:---")
 		curr_node.printNode()
 		print("----------------------")
 		if curr_node.goal_cost < (1.5):
@@ -84,36 +84,25 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, theta, dupli
 				[0,rpm2], [rpm2,0],
 				[rpm1,rpm2], [rpm2,rpm1],
 				[rpm1,rpm1], [rpm2,rpm2]]
-		# action_set = [[0, rpm1]]
+		# action_set = [[rpm1, rpm2]]
 		for action in action_set:
-			# print("action: ---", action)
 			# Action Move
-			# next_node = actions.actionMove(curr_node, row_step, col_step)
-			next_node = actions.actionMove(current_node=curr_node, next_action=action, goal_position=goal_node.current_coords)
-			# if itr <= 0:
-			# 	sys.exit(0)
-			# itr -= 1
+			next_node = actions.actionMoveNew(current_node=curr_node, next_action=action, goal_position=goal_node.current_coords)
 
-			# print("costs:", next_node.movement_cost, "+", next_node.goal_cost, "=", next_node.movement_cost + next_node.goal_cost)
 			if next_node is not None:
-				# print("in node none")
 				# if hit an obstacle, ignore this movement
 				if obstacles.withinObstacleSpaceFake((next_node.current_coords[1], next_node.current_coords[0]), robot_radius, clearance):
+					print("skipping loop .....................................................")
 					continue
 
 				# Check if the current node has already been visited.
 				# If it has, then see if the current path is better than the previous one
 				# based on the total cost = movement cost + goal cost
-				# print(next_node.current_coords[0])
-				# print(next_node.current_coords[1])
 
 				node_state = (utils.valRound(next_node.current_coords[0]), utils.valRound(next_node.current_coords[1]), next_node.orientation)
-				# print(node_state)
 				
 				if node_state in visited:
-					# print("node in visited")
 					# if current cost is a better cost
-					# if (next_node.movement_cost + next_node.goal_cost) < (visited[node_state].movement_cost + visited[node_state].goal_cost):
 					if (next_node < visited[node_state]):
 						visited[node_state].current_coords = next_node.current_coords
 						visited[node_state].parent_coords = next_node.parent_coords
@@ -132,16 +121,18 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, theta, dupli
 					heapq.heappush(minheap, ((next_node.movement_cost + next_node.goal_cost), next_node))
 
 					viz_visited_coords.append(next_node)
+			else:
+				print("Oops... Node is None!!")
 
 		heapq.heapify(minheap)
 	print("outside while")
-				# sys.exit()
+
 
 def testMain():
 	# path, viz_nodes = aStar(start_pos=(5,5), goal_pos=(50,50), robot_radius=0, clearance=0, step_size=5, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
-	temp = aStar(start_pos=(1,1), goal_pos=(5,5), robot_radius=1, clearance=0, rpm1=10, rpm2=20, theta=20, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
+	path, viz_nodes = aStar(start_pos=(-4,-4), goal_pos=(4,4), robot_radius=0.177, clearance=0.5, rpm1=10, rpm2=20, starting_theta=20, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 
-	# univ.function(viz_nodes, path)
+	univ.function(viz_nodes, path)
 
 
 if __name__ == '__main__':
