@@ -9,8 +9,8 @@ import math
 # input_map_dummy = np.zeros((200, 300))
 
 # stored in the (x,y) format
-MIN_COORDS = (0, 0)
-MAX_COORDS = (300, 200)
+MIN_COORDS = (-5, -5)
+MAX_COORDS = (5, 5)
 rpm1 = 10
 rpm2 = 20
 import sys
@@ -36,7 +36,7 @@ import sys
 ## :rtype:     Node
 ##
 # def actionMove(current_node, theta_step, linear_step, goal_position=None):
-def actionMove(current_node, next_action, goal_position):
+def actionMove(current_node, next_action, theta, goal_position):
 	
 	# 8 connected action set
 	# print(current_node.current_coords)
@@ -47,31 +47,36 @@ def actionMove(current_node, next_action, goal_position):
 	mc = 0
 	gc = 0
 	dt = 0.1
-	r = 1
-	l = 1
+	r = 0.038
+	l = 0.354
 	# x = current_node.current_coords[0]
-	dx = current_node.current_coords[0]
+	# dx = current_node.current_coords[0]
+	dx = current_node[0]
+	dy = current_node[1]
 	# y = current_node.current_coords[1]
-	dy = current_node.current_coords[1]
-	dtheta = current_node.orientation
+	# dy = current_node.current_coords[1]
+	# dtheta = current_node.orientation
+	dtheta = theta
 	theta = math.radians(dtheta)
-	while t < 1:
+	while t < 0.1:
 		t = t + dt
 		x = dx
 		y = dy
-		dx += (r*(u_r+u_l)*math.cos(math.radians(theta))/2)*dt
-		dy += (r*(u_r+u_l)*math.sin(math.radians(theta))/2)*dt
-		dtheta += (r*(u_r-u_l)*l)*dt
+		dx += (r*(u_r+u_l)*math.cos(theta)/2)*dt
+		dy += (r*(u_r+u_l)*math.sin(theta)/2)*dt
+		dtheta += ((r/l)*(u_r-u_l))*dt
 		mc += utils.euclideanDistance((x,y), (dx,dy))
 		# print(mc)
 
+		print("Final node", (dx, dy))
+		print("Orientation", math.degrees(dtheta))
 	cc = (dx, dy)
-	pc = current_node.current_coords
+	# pc = current_node.current_coords
 	# print("cc", cc)
 	# print("pc", pc)
 	# print("theta", dtheta)
-	ori = dtheta
-	pori = current_node.orientation
+	ori = math.degrees(dtheta)
+	# pori = current_node.orientation
 
 	# # cost to reach parent node + latest travel from parent node to current node 
 	# mc = current_node.movement_cost + step_size
@@ -89,13 +94,88 @@ def actionMove(current_node, next_action, goal_position):
 	# # print("mc", mc)
 	# # print("gc", gc)
 
-	ret_val = node.Node(current_coords=cc, parent_coords=pc, orientation=dtheta, parent_orientation=pori, movement_cost=mc, goal_cost=gc)
+	# ret_val = node.Node(current_coords=cc, parent_coords=pc, orientation=ori, parent_orientation=pori, movement_cost=mc, goal_cost=gc)
 	# print("costs:", ret_val.movement_cost, "+", ret_val.goal_cost, "=", ret_val.movement_cost + ret_val.goal_cost)
 	# print(ret_val.goal_cost)
 	# print(ret_val.movement_cost)
 	# sys.exit()
 
+	# return ret_val
+
+
+
+
+
+
+
+
+
+# def actionMove(current_node, next_action, theta, goal_position):
+# def actionMoveNew(Xi,Yi,Thetai,UL,UR):
+def actionMoveNew(current_node, next_action, goal_position):
+
+	Yi, Xi = current_node.current_coords
+	Thetai = current_node.orientation
+	mc = current_node.movement_cost
+	UL, UR = next_action
+
+	t = 0.0
+	r = 0.038
+	L = 0.354
+	dt = 0.1
+	Xn=Xi
+	Yn=Yi
+	# Thetan = 3.14 * Thetai / 180
+	Thetan = math.radians(Thetai)
+
+# Xi, Yi,Thetai: Input point's coordinates
+# Xs, Ys: Start point coordinates for plot function
+# Xn, Yn, Thetan: End point coordintes
+
+	while t<0.1:
+		t = t + dt
+		Xs = Xn
+		Ys = Yn
+		Xn += r * (UL + UR) * math.cos(Thetan) * dt
+		Yn += r * (UL + UR) * math.sin(Thetan) * dt
+		Thetan += (r / L) * (UR - UL) * dt
+		mc += utils.euclideanDistance((Xs, Ys), (Xn, Yn))
+		# plt.plot([Xs, Xn], [Ys, Yn], color="blue")
+		print("Final node", (Xn, Yn))
+		print("Orientation", math.degrees(Thetan))
+
+	# Thetan = 180 * (Thetan) / 3.14
+	Thetan = math.degrees(Thetan)
+
+	cc = (Yn, Xn)
+	pc = current_node.current_coords
+	ori = Thetan
+	pori = current_node.orientation
+	gc = utils.euclideanDistance(cc, goal_position)
+
+	print("costs:", mc, "+", gc, "=", mc + gc)
+	
+	if (cc[0] < MIN_COORDS[0]) or (cc[0] >= MAX_COORDS[0]) or (cc[1] < MIN_COORDS[1]) or (cc[1] >= MAX_COORDS[1]):
+		return None 
+
+	ret_val = node.Node(current_coords=cc, parent_coords=pc, orientation=ori, parent_orientation=pori, movement_cost=mc, goal_cost=gc)
+
+	print("Inside action function..... printing ret_val:", ret_val.printNode())
 	return ret_val
+	# return Xn, Yn, Thetan
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 ##
@@ -119,6 +199,9 @@ def backtrack(node, visited_nodes):
 
 	while temp.parent_coords is not None:
 		path.insert(0, temp)
+		print("=====================================BACKTRACKING=============")
+		temp.printNode()
+		print("==================")
 		temp = visited_nodes[(utils.valRound(temp.parent_coords[0]), utils.valRound(temp.parent_coords[1]), temp.parent_orientation)]
 
 	# put the start node in the path
@@ -143,12 +226,13 @@ def testMain():
 	# plt.show()
 	# plt.close()
 
-	action_set = [[0,rpm1], [rpm1,0],
-				[0,rpm2], [rpm2,0],
-				[rpm1,rpm2], [rpm2,rpm1],
-				[rpm1,rpm1], [rpm2,rpm2]]
+	# action_set = [[0,rpm1], [rpm1,0],
+	# 			[0,rpm2], [rpm2,0],
+	# 			[rpm1,rpm2], [rpm2,rpm1],
+	# 			[rpm1,rpm1], [rpm2,rpm2]]
+	action_set = [[10,20]]
 	for action in action_set:
-		actionMove((1,1), action, 30, (10,10), step_size=1)
+		actionMove((1,1), action, 20, (10,10))
 
 if __name__ == '__main__':
 	testMain()
