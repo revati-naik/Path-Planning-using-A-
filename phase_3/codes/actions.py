@@ -13,7 +13,7 @@ import math
 MIN_COORDS = (-5, -5)
 MAX_COORDS = (5, 5)
 
-UNIT_STEP = 0.3
+UNIT_STEP = 0.1
 
 # rpm1 = 10
 # rpm2 = 20

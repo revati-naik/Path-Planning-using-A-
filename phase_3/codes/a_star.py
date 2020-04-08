@@ -138,14 +138,14 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, starting_the
 def testMain():
 	# path, viz_nodes = aStar(start_pos=(5,5), goal_pos=(50,50), robot_radius=0, clearance=0, step_size=5, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 
-	goal_pos = (-2,0)
+	goal_pos = (4,4)
 	goal_node = node.Node(current_coords=goal_pos, parent_coords=None, orientation=None, parent_orientation=None, movement_cost=None, goal_cost=0)
 
 	start_time = time.clock()
-	path, viz_nodes = aStar(start_pos=(-4,-4), goal_pos=goal_pos, robot_radius=0.177, clearance=0.2, rpm1=10, rpm2=20, starting_theta=20, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
+	path, viz_nodes = aStar(start_pos=(-4,-4), goal_pos=goal_pos, robot_radius=0.177, clearance=0.2, rpm1=25, rpm2=30, starting_theta=20, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 	
-	np.save("path.npy", path)
-	np.save("viz_nodes.npy", viz_nodes)
+	np.save("path_25_30_01.npy", path)
+	np.save("viz_nodes_25_30_01.npy", viz_nodes)
 	print("Time to run A*:", time.clock() - start_time, "seconds")
 
 	# univ.function(viz_nodes, path, goal_node)
