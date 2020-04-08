@@ -1,4 +1,5 @@
 from __future__ import print_function
+import sys
 import numpy as np
 
 import node
@@ -11,9 +12,11 @@ import math
 # stored in the (x,y) format
 MIN_COORDS = (-5, -5)
 MAX_COORDS = (5, 5)
-rpm1 = 10
-rpm2 = 20
-import sys
+
+UNIT_STEP = 0.3
+
+# rpm1 = 10
+# rpm2 = 20
 
 
 
@@ -58,7 +61,7 @@ def actionMove(current_node, next_action, theta, goal_position):
 	# dtheta = current_node.orientation
 	dtheta = theta
 	theta = math.radians(dtheta)
-	while t < 0.1:
+	while t < UNIT_STEP:
 		t = t + dt
 		x = dx
 		y = dy
@@ -132,7 +135,7 @@ def actionMoveNew(current_node, next_action, goal_position):
 # Xs, Ys: Start point coordinates for plot function
 # Xn, Yn, Thetan: End point coordintes
 
-	while t<0.1:
+	while t < UNIT_STEP:
 		t = t + dt
 		Xs = Xn
 		Ys = Yn
@@ -188,9 +191,9 @@ def backtrack(node, visited_nodes):
 
 	while temp.parent_coords is not None:
 		path.insert(0, temp)
-		print("=====================================BACKTRACKING=============")
-		temp.printNode()
-		print("==================")
+		# print("=====================================BACKTRACKING=============")
+		# temp.printNode()
+		# print("==================")
 		temp = visited_nodes[(utils.valRound(temp.parent_coords[0]), utils.valRound(temp.parent_coords[1]), temp.parent_orientation)]
 
 	# put the start node in the path

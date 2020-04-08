@@ -133,7 +133,7 @@ def generateMap():
     plt.show()
 
 def testMain():
-    withinObstacleSpace((2,3),0,0)
+    print(withinObstacleSpace((0,-2),0,0))
     generateMap()
     
     

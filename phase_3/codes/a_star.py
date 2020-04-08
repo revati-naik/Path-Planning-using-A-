@@ -2,6 +2,7 @@ from __future__ import print_function
 import os
 import cv2
 import copy
+import time
 import numpy as np
 import heapq
 import matplotlib.pyplot as plt
@@ -21,7 +22,7 @@ import univ
 # robot_radius = 1
 # wheel_distance = 1
 
-GOAL_REACH_THRESH = 1.5
+GOAL_REACH_THRESH = 0.3
 
 ##
 ## Gets the A-Star path.
@@ -91,7 +92,7 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, starting_the
 		i = 0
 		for action in action_set:
 			# Action Move
-			print("=========" + str(i) + "========")
+			# print("=========" + str(i) + "========")
 			i +=1
 			next_node = actions.actionMoveNew(current_node=curr_node, next_action=action, goal_position=goal_node.current_coords)
 			if next_node is not None:
@@ -121,14 +122,14 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, starting_the
 							minheap[h_idx] = ((next_node.movement_cost + next_node.goal_cost), next_node)
 				else:
 					# visited.append(next_node)
-					print("New node added! count:", node_count)
-					node_count += 1
+					# print("New node added! count:", node_count)
+					# node_count += 1
 					visited[node_state] = next_node
 					heapq.heappush(minheap, ((next_node.movement_cost + next_node.goal_cost), next_node))
 
 					viz_visited_coords.append(next_node)
-			else:
-				print("Oops... Node is None!!")
+			# else:
+			# 	print("Oops... Node is None!!")
 
 		heapq.heapify(minheap)
 	print("outside while")
@@ -136,10 +137,20 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, starting_the
 
 def testMain():
 	# path, viz_nodes = aStar(start_pos=(5,5), goal_pos=(50,50), robot_radius=0, clearance=0, step_size=5, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
-	path, viz_nodes = aStar(start_pos=(-4,-4), goal_pos=(-2,-2), robot_radius=0.177, clearance=0.5, rpm1=10, rpm2=20, starting_theta=20, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 
-	goal_node = node.Node(current_coords=(-2,-2), parent_coords=None, orientation=None, parent_orientation=None, movement_cost=None, goal_cost=0)
-	univ.function(viz_nodes, path, goal_node)
+	goal_pos = (-2,0)
+	goal_node = node.Node(current_coords=goal_pos, parent_coords=None, orientation=None, parent_orientation=None, movement_cost=None, goal_cost=0)
+
+	start_time = time.clock()
+	path, viz_nodes = aStar(start_pos=(-4,-4), goal_pos=goal_pos, robot_radius=0.177, clearance=0.2, rpm1=10, rpm2=20, starting_theta=20, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
+	
+	np.save("path.npy", path)
+	np.save("viz_nodes.npy", viz_nodes)
+	print("Time to run A*:", time.clock() - start_time, "seconds")
+
+	# univ.function(viz_nodes, path, goal_node)
+	# univ.plotExplorationNodesAndFinalPath(viz_nodes, path, goal_node)
+	univ.plotFinalPath(path_node_vector=path, goal_node=goal_node)
 
 
 if __name__ == '__main__':
