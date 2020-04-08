@@ -141,8 +141,8 @@ def actionMoveNew(current_node, next_action, goal_position):
 		Thetan += (r / L) * (UR - UL) * dt
 		mc += utils.euclideanDistance((Xs, Ys), (Xn, Yn))
 		# plt.plot([Xs, Xn], [Ys, Yn], color="blue")
-		print("Final node", (Xn, Yn))
-		print("Orientation", math.degrees(Thetan))
+		# print("Final node", (Xn, Yn))
+		# print("Orientation", math.degrees(Thetan))
 
 	# Thetan = 180 * (Thetan) / 3.14
 	Thetan = math.degrees(Thetan)
@@ -153,27 +153,16 @@ def actionMoveNew(current_node, next_action, goal_position):
 	pori = current_node.orientation
 	gc = utils.euclideanDistance(cc, goal_position)
 
-	print("costs:", mc, "+", gc, "=", mc + gc)
+	# print("costs:", mc, "+", gc, "=", mc + gc)
 	
 	if (cc[0] < MIN_COORDS[0]) or (cc[0] >= MAX_COORDS[0]) or (cc[1] < MIN_COORDS[1]) or (cc[1] >= MAX_COORDS[1]):
 		return None 
 
 	ret_val = node.Node(current_coords=cc, parent_coords=pc, orientation=ori, parent_orientation=pori, movement_cost=mc, goal_cost=gc)
 
-	print("Inside action function..... printing ret_val:", ret_val.printNode())
+	# print("Inside action function..... printing ret_val:", ret_val.printNode())
 	return ret_val
 	# return Xn, Yn, Thetan
-
-
-
-
-
-
-
-
-
-
-
 
 
 

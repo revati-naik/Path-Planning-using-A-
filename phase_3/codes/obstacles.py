@@ -71,30 +71,30 @@ def withinObstacleSpace((x,y),radius,clearance):
     
     #check rectangle
     if rect_1_1 < 0 and rect_1_2 > 0 and rect_1_3 < 0 and rect_1_4 > 0 or point.distance(rectangle_1) <= radius+clearance:
-        print("In Rectangle 1")
+        # print("In Rectangle 1")
         flag = 1
     
     if rect_2_1 > 0 and rect_2_2 < 0 and rect_2_3 < 0 and rect_2_4 > 0 or point.distance(rectangle_2) <= radius+clearance:
-        print("In Rectangle 2")
+        # print("In Rectangle 2")
         flag = 1
     
     if rect_3_1 > 0 and rect_3_2 < 0 and rect_3_3 > 0 and rect_3_4 > 0 or point.distance(rectangle_3) <= radius+clearance:
-        print("In Rectangle 3")
+        # print("In Rectangle 3")
         flag = 1
     
 
     #circle
     if(((x - (0))**2 + (y - (0))**2 - (1+radius+clearance)**2) <= 0) :
-        print("In circle 1")
+        # print("In circle 1")
         flag = 1
     if(((x - (-2))**2 + (y - (-3))**2 - (1+radius+clearance)**2) <= 0) :
-        print("In circle 2")
+        # print("In circle 2")
         flag = 1
     if(((x - (2))**2 + (y - (-3))**2 - (1+radius+clearance)**2) <= 0) :
-        print("In circle 3")
+        # print("In circle 3")
         flag = 1
     if(((x - (2))**2 + (y - (3))**2 - (1+radius+clearance)**2) <= 0) :
-        print("In circle 4")
+        # print("In circle 4")
         flag = 1
 
 

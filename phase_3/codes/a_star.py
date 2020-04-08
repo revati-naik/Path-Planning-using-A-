@@ -18,8 +18,10 @@ import visualization as viz
 import univ
 
 
-robot_radius = 1
-wheel_distance = 1
+# robot_radius = 1
+# wheel_distance = 1
+
+GOAL_REACH_THRESH = 1.5
 
 ##
 ## Gets the A-Star path.
@@ -54,16 +56,17 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, starting_the
 	viz_visited_coords = [start_node]
 	# print(visited)
 
+	node_count = 0
 	while len(minheap) > 0:
 		# print("len(minheap):", len(minheap))
 		_, curr_node = heapq.heappop(minheap)
 		# print(curr_node.goal_cost)
 		# if curr_node.isDuplicate(goal_node):	
 		
-		print("curr_node:---")
-		curr_node.printNode()
-		print("----------------------")
-		if curr_node.goal_cost < (1.5):
+		# print("curr_node:---")
+		# curr_node.printNode()
+		# print("----------------------")
+		if curr_node.goal_cost < (GOAL_REACH_THRESH):
 		# if if(((curr_node.current_coords[0] - ())**2 + (y - (0))**2 - (1+radius+clearance)**2) <= 0) :
 			print("Reached Goal!")
 			print("Current node:---")
@@ -85,14 +88,16 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, starting_the
 				[rpm1,rpm2], [rpm2,rpm1],
 				[rpm1,rpm1], [rpm2,rpm2]]
 		# action_set = [[rpm1, rpm2]]
+		i = 0
 		for action in action_set:
 			# Action Move
+			print("=========" + str(i) + "========")
+			i +=1
 			next_node = actions.actionMoveNew(current_node=curr_node, next_action=action, goal_position=goal_node.current_coords)
-
 			if next_node is not None:
 				# if hit an obstacle, ignore this movement
-				if obstacles.withinObstacleSpaceFake((next_node.current_coords[1], next_node.current_coords[0]), robot_radius, clearance):
-					print("skipping loop .....................................................")
+				if obstacles.withinObstacleSpace((next_node.current_coords[1], next_node.current_coords[0]), robot_radius, clearance):
+					# print("skipping loop .....................................................")
 					continue
 
 				# Check if the current node has already been visited.
@@ -116,7 +121,8 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, starting_the
 							minheap[h_idx] = ((next_node.movement_cost + next_node.goal_cost), next_node)
 				else:
 					# visited.append(next_node)
-					# print("no visited")
+					print("New node added! count:", node_count)
+					node_count += 1
 					visited[node_state] = next_node
 					heapq.heappush(minheap, ((next_node.movement_cost + next_node.goal_cost), next_node))
 
@@ -130,9 +136,10 @@ def aStar(start_pos, goal_pos, robot_radius, clearance, rpm1, rpm2, starting_the
 
 def testMain():
 	# path, viz_nodes = aStar(start_pos=(5,5), goal_pos=(50,50), robot_radius=0, clearance=0, step_size=5, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
-	path, viz_nodes = aStar(start_pos=(-4,-4), goal_pos=(4,4), robot_radius=0.177, clearance=0.5, rpm1=10, rpm2=20, starting_theta=20, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
+	path, viz_nodes = aStar(start_pos=(-4,-4), goal_pos=(-2,-2), robot_radius=0.177, clearance=0.5, rpm1=10, rpm2=20, starting_theta=20, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 
-	univ.function(viz_nodes, path)
+	goal_node = node.Node(current_coords=(-2,-2), parent_coords=None, orientation=None, parent_orientation=None, movement_cost=None, goal_cost=0)
+	univ.function(viz_nodes, path, goal_node)
 
 
 if __name__ == '__main__':
