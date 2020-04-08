@@ -144,8 +144,8 @@ def testMain():
 	start_time = time.clock()
 	path, viz_nodes = aStar(start_pos=(-4,-4), goal_pos=goal_pos, robot_radius=0.177, clearance=0.2, rpm1=25, rpm2=30, starting_theta=20, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
 	
-	np.save("path_25_30_01.npy", path)
-	np.save("viz_nodes_25_30_01.npy", viz_nodes)
+	# np.save("path_25_35_01.npy", path)
+	# np.save("viz_nodes_25_35_01.npy", viz_nodes)
 	print("Time to run A*:", time.clock() - start_time, "seconds")
 
 	# univ.function(viz_nodes, path, goal_node)

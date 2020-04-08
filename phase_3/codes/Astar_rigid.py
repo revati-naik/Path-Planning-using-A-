@@ -55,9 +55,9 @@ def main():
 	goal_node = node.Node(current_coords=(start_r, start_c), parent_coords=None, orientation=None, parent_orientation=None, movement_cost=None, goal_cost=0)
 
 	start_time = time.clock()
-	path, viz_nodes = a_star.aStar(start_pos=(start_r,start_c), goal_pos=(goal_r, goal_c), robot_radius=ROBOT_RADIUS, clearance=clearance, rpm1=10, rpm2=20, starting_theta=start_orient, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
-	np.save("path.npy", path)
-	np.save("viz_nodes.npy", viz_nodes)
+	path, viz_nodes = a_star.aStar(start_pos=(start_r,start_c), goal_pos=(goal_r, goal_c), robot_radius=ROBOT_RADIUS, clearance=clearance, rpm1=25, rpm2=35, starting_theta=start_orient, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
+	np.save("path_25_35_01.npy", path)
+	np.save("viz_nodes_25_35_01.npy", viz_nodes)
 	print ("Time to run A*:", time.clock() - start_time, "seconds")
 	# 
 	# path, viz_nodes = a_star.aStar(start_pos=(start_r,start_c), goal_pos=(goal_r,goal_c), robot_radius=radius, clearance=clearance, step_size=step_size, theta=30, duplicate_step_thresh=0.5, duplicate_orientation_thresh=30)
