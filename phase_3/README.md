@@ -1,10 +1,10 @@
 # Path-Planning-using-A_Star (with non-holonomic constraints)
-Implement A* Algorithm to find the shortest path between start and endpoint.
+Implementation of A* Algorithm to find the shortest path between start and endpoint.
 
 # ENPM661_Proj3_Phase3
-A* implementation for Rigid Robot with non-holonomic constraints
+A* implementation for Rigid Robot (turtlebot3 - Burger) with non-holonomic constraints
 
-The main file is Astar_rigid.py
+The main file is `Astar_rigid.py`
 
 ## Dependencies
 Numpy
@@ -15,7 +15,8 @@ time
 
 ## Instructions to run A* for a Rigid Robot
 ```python
-$ git clone https://github.com/revati-naik/Path-Palnning-using-A_Star/phase_3.git
+$ git clone https://github.com/revati-naik/Path-Planning-using-A_Star.git
+$ cd Path-Planning-using-A_Star/phase_3
 $ python codes/Astar_rigid.py
 ```
 The user will then be prompted for various inputs.
