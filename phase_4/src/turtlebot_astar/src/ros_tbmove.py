@@ -1,20 +1,18 @@
-
 import os
 import sys
 import rospy
-import numpy as np 
+import numpy as np
 import math
 from std_msgs.msg import String
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import Point
-import time 
+import time
 import rospkg
 from nav_msgs.msg import Odometry
 from tf.transformations import euler_from_quaternion
 sys.dont_write_bytecode = True
 
 import utils
-
 
 
 x = 0.0
@@ -41,7 +39,7 @@ def newOdom(msg, args):
 	global x
 	global y
 	global theta
-	
+
 	global goal
 	global path_itr
 
@@ -52,7 +50,8 @@ def newOdom(msg, args):
 	y = msg.pose.pose.position.y
 
 	rot_q = msg.pose.pose.orientation
-	roll, pitch, theta = euler_from_quaternion((rot_q.x, rot_q.y, rot_q.z, rot_q.w))
+	roll, pitch, theta = euler_from_quaternion(
+		(rot_q.x, rot_q.y, rot_q.z, rot_q.w))
 
 	if utils.euclideanDistance((goal.x, goal.y), (x, y)) < 0.2:
 		goal.x, goal.y = path_list[path_itr].getXYCoords()
@@ -76,7 +75,8 @@ def main():
 
 	# Reading the generated A* path from the .npy file
 	rospack = rospkg.RosPack()
-	npy_path = os.path.join(rospack.get_path('turtlebot_astar'), 'paths/path_n4zz.npy')
+	npy_path = os.path.join(rospack.get_path(
+		'turtlebot_astar'), 'paths/path_n4zz.npy')
 	robot_path_list = np.load(npy_path, allow_pickle=True)
 
 	global goal
@@ -84,7 +84,7 @@ def main():
 
 	# Creating the Publisher and the Subscriber
 	pub = rospy.Publisher("/cmd_vel", Twist, queue_size=1)
-	sub = rospy.Subscriber("/odom", Odometry, newOdom, (robot_path_list, pub))
+	rospy.Subscriber("/odom", Odometry, newOdom, (robot_path_list, pub))
 
 	r = rospy.Rate(4)
 	speed = Twist()
@@ -100,7 +100,7 @@ def main():
 		# rospy.loginfo(angle_to_goal)
 
 		# while(utils.euclideanDistance((goal.x, goal.y), (x, y)) > 0.2):
-			
+
 		# print("abs(angle_to_goal - theta):", abs(angle_to_goal - theta))
 		if abs(angle_to_goal - theta) < 0.1:
 			speed.linear.x = 0.5
@@ -112,7 +112,7 @@ def main():
 			# print("inside else")
 			speed.linear.x = 0.0
 			speed.angular.z = 0.3
-	
+
 		# speed.linear.x = 0.0
 		# speed.angular.z = 0.0
 
