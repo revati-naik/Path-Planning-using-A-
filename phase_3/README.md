@@ -8,9 +8,13 @@ The main file is `Astar_rigid.py`
 
 ## Dependencies
 Numpy
+
 Matplotlib
+
 Shapely
+
 Heapq
+
 time
 
 ## Instructions to run A* for a Rigid Robot
