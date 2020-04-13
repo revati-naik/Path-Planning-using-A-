@@ -12,6 +12,56 @@ import obstacles
 import visualization as viz
 
 
+def findShortestPath(start_x, start_y, start_theta, goal_x, goal_y, rpm1, rpm2, clearance):
+	start_r = start_y
+	start_c = start_x
+	start_rc = (start_r, start_c)
+	
+	goal_r = goal_y
+	goal_c = goal_x
+	goal_rc = (goal_r, goal_c)
+
+	# check if the start node lies withing the map and not on obstacles
+	if ((start_r < actions_new.MIN_COORDS[1]) or
+		(start_r >= actions_new.MAX_COORDS[1]) or
+		(start_c < actions_new.MIN_COORDS[0]) or
+		(start_c >= actions_new.MAX_COORDS[0]) or
+		obstacles.withinObstacleSpace((start_c, start_r), a_star.ROBOT_RADIUS, clearance)):
+		print("ERROR: Invalid start node. It either lies outside the map boundary or within the obstacle region.")
+		return
+
+	# check if the goal node lies withing the map and not on obstacles
+	if ((goal_r < actions_new.MIN_COORDS[1]) or
+		(goal_r >= actions_new.MAX_COORDS[1]) or
+		(goal_c < actions_new.MIN_COORDS[0]) or
+		(goal_c >= actions_new.MAX_COORDS[0]) or
+		obstacles.withinObstacleSpace((goal_c, goal_r), a_star.ROBOT_RADIUS, clearance)):
+		print("ERROR: Invalid goal node. It either lies outside the map boundary or within the obstacle region.")
+		return
+
+	# write code to find the actual path using a star
+	start_time = time.clock()
+	path, visited_viz_nodes = a_star.a_star(start_rc=start_rc, goal_rc=goal_rc, orientation=start_theta, rpm1=rpm1, rpm2=rpm2, clearance=clearance, viz_please=False)
+	print "Time to run A*:", time.clock() - start_time, "seconds"
+
+	print("Number of visited nodes:", len(visited_viz_nodes))
+	print("Number of nodes in path:", len(path))
+
+	plotter = viz.initPlot(start_rc[::-1], goal_rc[::-1], title="Final Plotting")
+	# plt.savefig(os.path.join(a_star.OUTPUT_DIR, "1.png"))
+	plt.ion()
+
+	i = 2
+	# i = viz.plotPath(path=visited_viz_nodes, rev=False, pause_time=0.001, plotter=plotter, color="blue", linewidth=1, write_path_prefix=-1, show=False, skip_frames=25)
+	i = viz.plotPath(path=path, rev=True, pause_time=0.001, plotter=plotter, color="lime", linewidth=3, write_path_prefix=-1, show=True, skip_frames=5)
+
+	plt.ioff()
+	print("Done with plots.")
+	plt.show()
+
+	return path
+
+
 def main():
 	"""
 	Main function that takes user input and
@@ -63,12 +113,12 @@ def main():
 	np.save("./path_dumps/visited_viz_nodes_final.npy", visited_viz_nodes)
 
 	plotter = viz.initPlot(start_rc[::-1], goal_rc[::-1], title="Final Plotting")
-	plt.savefig(os.path.join(a_star.OUTPUT_DIR, "1.png"))
+	# plt.savefig(os.path.join(a_star.OUTPUT_DIR, "1.png"))
 	plt.ion()
 
 	i = 2
-	i = viz.plotPath(path=visited_viz_nodes, rev=False, pause_time=0.001, plotter=plotter, color="blue", linewidth=1, write_path_prefix=i, show=False, skip_frames=25)
-	i = viz.plotPath(path=path, rev=True, pause_time=0.001, plotter=plotter, color="lime", linewidth=3, write_path_prefix=i, show=False, skip_frames=1)
+	# i = viz.plotPath(path=visited_viz_nodes, rev=False, pause_time=0.001, plotter=plotter, color="blue", linewidth=1, write_path_prefix=-1, show=False, skip_frames=25)
+	i = viz.plotPath(path=path, rev=True, pause_time=0.001, plotter=plotter, color="lime", linewidth=3, write_path_prefix=-1, show=True, skip_frames=5)
 
 	plt.ioff()
 	print("Done with plots.")

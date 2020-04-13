@@ -1,13 +1,12 @@
 #!/usr/bin/python
+from __future__ import print_function
 import os
 import sys
 import rospy
-import numpy as np 
+import numpy as np
 import math
-from std_msgs.msg import String
 from geometry_msgs.msg import Twist
 from geometry_msgs.msg import Point
-import time 
 import rospkg
 from nav_msgs.msg import Odometry
 from tf.transformations import euler_from_quaternion
@@ -29,19 +28,23 @@ goal.y = y
 path_itr = 1
 
 
+def shutdownProcedure():
+	print("turtlebot_move Node shutting down! Manually initiated shutdown once the goal node is reached by the turtlebot.")
+
+
 def newOdom(msg, args):
 	"""
 	Callback Function for Subscriber to get Robot's Current Location
 
 	:param      msg:   Robots Odometry
 	:type       msg:   nav_msgs/Odometry
-	:param      args:  (path_list, cmd_vel)
+	:param      args:  (path_list, cmd_vel publisher)
 	:type       args:  tuple
 	"""
 	global x
 	global y
 	global theta
-	
+
 	global goal
 	global path_itr
 
@@ -72,11 +75,14 @@ def main():
 	"""
 
 	# Initialising ROS node
-	rospy.init_node("test_move")
+	rospy.init_node("turtlebot_move")
+
+	# Reading parameters from the launch file
+	npy_path = rospy.get_param("/publish_velocity/npy_file_path")
 
 	# Reading the generated A* path from the .npy file
-	rospack = rospkg.RosPack()
-	npy_path = os.path.join(rospack.get_path('turtlebot_astar'), 'src/path_dumps/path_final.npy')
+	# rospack = rospkg.RosPack()
+	# npy_path = os.path.join(rospack.get_path('turtlebot_astar'), 'src/path_dumps/path_final.npy')
 	robot_path_list = np.load(npy_path, allow_pickle=True)
 
 	global goal
@@ -89,37 +95,32 @@ def main():
 	r = rospy.Rate(4)
 	speed = Twist()
 
-	while not rospy.is_shutdown():
-		# for node in values[1:]:
-		# 	goal.x, goal.y = node.getXYCoords()
+	try:
+		while not rospy.is_shutdown():
 
-		inc_x = goal.x - x
-		inc_y = goal.y - y
+			inc_x = goal.x - x
+			inc_y = goal.y - y
 
-		angle_to_goal = math.atan2(inc_y, inc_x)
-		# rospy.loginfo(angle_to_goal)
+			angle_to_goal = math.atan2(inc_y, inc_x)
 
-		# while(utils.euclideanDistance((goal.x, goal.y), (x, y)) > 0.2):
-			
-		# print("abs(angle_to_goal - theta):", abs(angle_to_goal - theta))
-		if abs(angle_to_goal - theta) < 0.1:
-			# print("inside if")
-			speed.linear.x = 0.5
-			speed.angular.z = 0.0
-		elif (angle_to_goal - theta) < 0:
-			speed.linear.x = 0.0
-			speed.angular.z = -0.3
-		else:
-			# print("inside else")
-			speed.linear.x = 0.0
-			speed.angular.z = 0.3
-	
-		# speed.linear.x = 0.0
-		# speed.angular.z = 0.0
+			if abs(angle_to_goal - theta) < 0.1:
+				speed.linear.x = 0.5
+				speed.angular.z = 0.0
+			elif (angle_to_goal - theta) < 0:
+				speed.linear.x = 0.0
+				speed.angular.z = -0.3
+			else:
+				speed.linear.x = 0.0
+				speed.angular.z = 0.3
 
-		# Publishing the Control Inputs for the TurtleBot on the topic /cmd_vel
-		pub.publish(speed)
-		r.sleep()
+			# Publishing the Velocity Inputs for the TurtleBot on the topic /cmd_vel
+			pub.publish(speed)
+			r.sleep()
+
+	except rospy.exceptions.ROSInterruptException as ros_int:
+		print(ros_int)
+	except Exception as e:
+		raise e
 
 
 if __name__ == '__main__':
