@@ -1,4 +1,3 @@
-
 <launch>
 	<param name="/use_sim_time" value="true"/>
 	<!-- Run the Gazebo Simulation World -->
@@ -6,7 +5,7 @@
 		<arg name="world_name" value="$(find turtlebot_astar)/world/map.world"/>  
 	</include> 
 	
-	<!-- Import turtlebot into my world -->
+	<!-- Import turtlebot into my world at the given start position-->
 	<arg name="robot_name" value="turtlebot3_burger"/>
 	<arg name="initial_pose_x" value="-4.0"/>
 	<arg name="initial_pose_y" value="-4.0"/>
@@ -20,5 +19,9 @@
     </node>
 
     <!-- Publisher Subscriber -->
-    <node pkg="turtlebot_astar" type="ros_tbmove.py" name="publish_velocity" output="screen"/>
+    <node pkg="turtlebot_astar" type="publisher.py" name="publish_velocity" output="screen">
+    	<param name="npy_file_path" value="$(find turtlebot_astar)/src/path_dumps/path_vid2.npy"/>
+    </node>  
+    
+
 </launch>
