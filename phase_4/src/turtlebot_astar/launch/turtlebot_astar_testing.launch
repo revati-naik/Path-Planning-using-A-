@@ -19,7 +19,9 @@
     </node>
 
     <!-- Publisher Subscriber -->
-    <node pkg="turtlebot_astar" type="publisher.py" name="publish_velocity" output="screen" />  
+    <node pkg="turtlebot_astar" type="publisher.py" name="publish_velocity" output="screen">
+    	<param name="npy_file_path" value="$(find turtlebot_astar)/src/path_dumps/path_final.npy"/>
+    </node>  
     
 
 </launch>

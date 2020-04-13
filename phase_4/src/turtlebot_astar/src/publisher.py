@@ -76,11 +76,13 @@ def main():
 
 	# Initialising ROS node
 	rospy.init_node("turtlebot_move")
-	rospy.on_shutdown(shutdownProcedure)
+
+	# Reading parameters from the launch file
+	npy_path = rospy.get_param("/publish_velocity/npy_file_path")
 
 	# Reading the generated A* path from the .npy file
-	rospack = rospkg.RosPack()
-	npy_path = os.path.join(rospack.get_path('turtlebot_astar'), 'src/path_dumps/path_final.npy')
+	# rospack = rospkg.RosPack()
+	# npy_path = os.path.join(rospack.get_path('turtlebot_astar'), 'src/path_dumps/path_final.npy')
 	robot_path_list = np.load(npy_path, allow_pickle=True)
 
 	global goal
