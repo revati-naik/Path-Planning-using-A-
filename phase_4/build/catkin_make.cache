@@ -1,0 +1,2 @@
+turtlebot_astar
+-DCATKIN_DEVEL_PREFIX=/home/revati/UMD/ENPM661/Projects/Path-Planning-using-A_Star/phase_4/devel -DCMAKE_INSTALL_PREFIX=/home/revati/UMD/ENPM661/Projects/Path-Planning-using-A_Star/phase_4/install -G Unix Makefiles

@@ -76,7 +76,7 @@ def main():
 
 	# Reading the generated A* path from the .npy file
 	rospack = rospkg.RosPack()
-	npy_path = os.path.join(rospack.get_path('turtlebot_astar'), 'paths/path_n4zz.npy')
+	npy_path = os.path.join(rospack.get_path('turtlebot_astar'), 'src/path_dumps/path_final.npy')
 	robot_path_list = np.load(npy_path, allow_pickle=True)
 
 	global goal

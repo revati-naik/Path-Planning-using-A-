@@ -59,8 +59,8 @@ def main():
 	print("Number of visited nodes:", len(visited_viz_nodes))
 	print("Number of nodes in path:", len(path))
 
-	np.save("./path_dumps/path_final.npy", path)
-	np.save("./path_dumps/visited_viz_nodes_final.npy", visited_viz_nodes)
+	np.save("./path_dumps/path_final_n3zz.npy", path)
+	np.save("./path_dumps/visited_viz_nodes_final_n3zz.npy", visited_viz_nodes)
 
 	plotter = viz.initPlot(start_rc[::-1], goal_rc[::-1], title="Final Plotting")
 	plt.savefig(os.path.join(a_star.OUTPUT_DIR, "1.png"))
