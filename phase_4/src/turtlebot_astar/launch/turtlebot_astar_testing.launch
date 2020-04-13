@@ -25,3 +25,8 @@
     
 
 </launch>
+
+
+
+<!-- Terminal command to spawn a robot. -->
+<!-- rosrun gazebo_ros spawn_model -file `rospack find turtlebot3_description`/urdf/turtlebot3_burger.urdf.xacro -urdf -x 4.0 -y 4.0 -z 0 -model turtlebot3_burger -->
