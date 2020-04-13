@@ -21,6 +21,7 @@ x = 0.0
 y = 0.0
 theta = 0.0
 
+
 goal = Point()
 goal.x = x
 goal.y = y
@@ -102,7 +103,6 @@ def main():
 			
 		# print("abs(angle_to_goal - theta):", abs(angle_to_goal - theta))
 		if abs(angle_to_goal - theta) < 0.1:
-			# print("inside if")
 			speed.linear.x = 0.5
 			speed.angular.z = 0.0
 		elif (angle_to_goal - theta) < 0:
