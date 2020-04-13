@@ -51,7 +51,7 @@ def a_star(start_rc, goal_rc, orientation, rpm1=10, rpm2=20, clearance=0.2, viz_
 	"""
 	Inputs
 	"""
-	start_node = node.Node(current_coords=start_rc, parent_coords=None, orientation=0, parent_orientation=None, action=None, movement_cost=0, goal_cost=utils.euclideanDistance(start_rc, goal_rc))
+	start_node = node.Node(current_coords=start_rc, parent_coords=None, orientation=orientation, parent_orientation=None, action=None, movement_cost=0, goal_cost=utils.euclideanDistance(start_rc, goal_rc))
 	print("-----------------------")
 	print("Start Node:")
 	start_node.printNode()

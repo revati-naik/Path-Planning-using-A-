@@ -109,7 +109,7 @@ def testMain():
     y = float(sys.argv[2])
 
     fig, ax = plt.subplots()
-    ax.set(xlim=(-10, 10), ylim=(-10, 10))
+    ax.set(xlim=(-5, 5), ylim=(-5, 5))
     ax.set_aspect('equal')
     ax.plot([x], [y], color="black", marker="+", markersize=3)
 
